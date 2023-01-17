@@ -1,17 +1,15 @@
-#import RPi.GPIO as GPIO
-
 import time
 import sys
 import PySimpleGUI as sg
-
-dev = True
+from const import cap, led
+from dev import env
 
 if dev:
     import FakeRPi.GPIO as GPIO
 else:
     import RPi.GPIO as GPIO
 
-from const import cap, led
+
 
 def pressButton(pin: int):
     print("Button Pressed: " + str(pin))

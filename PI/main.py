@@ -2,22 +2,47 @@ import time
 import sys
 import PySimpleGUI as sg
 from const import cap, led
-from dev import env
+from env import dev
 
+#This deals with mac and windows not having GPIO
 if dev:
     import FakeRPi.GPIO as GPIO
 else:
     import RPi.GPIO as GPIO
 
-
+min_button = 0.3
+timeout_button = 10
 
 def pressButton(pin: int):
     print("Button Pressed: " + str(pin))
     GPIO.setup(pin, GPIO.OUTPUT)
     GPIO.output(pin, GPIO.LOW)
-    time.sleep(0.3)
+    return 0
+
+def releaseButton(pin: int):
+    print("Button Released: " + str(pin))
     GPIO.setup(pin, GPIO.OUTPUT)
     return 0
+
+def update_buttons():
+    for button in state.keys():
+        if state[button][0] and not state[button][1]:
+            pressButton(cap[button])
+            state[button][1] = True
+            state[button][2] = time.time()
+        
+        elapsed = time.time() - state[button][2]
+
+        if elapsed > timeout_button:
+            state[button][0] = False
+
+        if not state[button][0] and state[button][1]:
+            if elapsed < min_button:
+                return
+
+            releaseButton(cap[button])
+            state[button][1] = False
+    
 
 def setup():
     GPIO.setmode(GPIO.BCM)
@@ -30,57 +55,50 @@ def setup():
 
     return 0
 
-
-def main():
-    return 0
-
-
 setup()
 
-layout = [[sg.Button('Pin0', button_color=('white', 'black'), key='Pin0'),
-           sg.Button('Pin1', button_color=('white', 'black'), key='Pin1'),
-           sg.Button('Pin2', button_color=('white', 'black'), key='Pin2'),
-            sg.Button('Pin3', button_color=('white', 'black'), key='Pin3'),
-            sg.Button('Pin4', button_color=('white', 'black'), key='Pin4')],
+state = {
+    "hot_chocolate":    [False, False, 0],
+    "cappuccino":       [False, False, 0],
+    "americano":        [False, False, 0],
+    "white_coffee":     [False, False, 0],
+    "latte":            [False, False, 0],
+    "mocha":            [False, False, 0],
+    "hot_water":        [False, False, 0],
+    "power":            [False, False, 0],
+}
+
+layout = [[ sg.Button('Hot Chocolate', button_color=('white', 'black'), key='hot_chocolate', ),
+            sg.Button('Cappuccino', button_color=('white', 'black'), key='cappuccino'),
+            sg.Button('Americano', button_color=('white', 'black'), key='americano'),
+            sg.Button('White Coffee', button_color=('white', 'black'), key='white_coffee')],
           [
-            sg.Button('Pin5', button_color=('white', 'black'), key='Pin5'),
-            sg.Button('Pin6', button_color=('white', 'black'), key='Pin6'),
-            sg.Button('Pin7', button_color=('white', 'black'), key='Pin7'),
-            sg.Button('Pin8', button_color=('white', 'black'), key='Pin8'),
-            sg.Button('Pin9', button_color=('white', 'black'), key='Pin9'),
+            sg.Button('Latte', button_color=('white', 'black'), key='latte'),
+            sg.Button('Mocha', button_color=('white', 'black'), key='mocha'),
+            sg.Button('Hot Water', button_color=('white', 'black'), key='hot_water'),
+            sg.Button('Power', button_color=('white', 'black'), key='power'),
         ]]
 
 
 window = sg.Window("TEST", layout, auto_size_buttons=True, default_button_element_size=(50,5), use_default_focus=False, finalize=True)
 
+for button in state.keys():
+    window[button].bind('<ButtonPress-1>' , "-p")
+
 recording = have_data = False
 while True:
-    main()
-
     event, values = window.read(timeout=100)
     if event == sg.WINDOW_CLOSED:
         break
+    
+    button = event.replace("-p", "")
+    if button in cap.keys():
+        if "-p" in event:
+            state[event.replace("-p", "")][0] = True
+        else:
+            state[event.replace("-p", "")][0] = False
 
-    #switch statement for buttons pressed tiggering the pressButton function
-    if event == 'Pin0':
-        pressButton(cap[0])
-    elif event == 'Pin1':
-        pressButton(cap[1])
-    elif event == 'Pin2':
-        pressButton(cap[2])
-    elif event == 'Pin3':
-        pressButton(cap[3])
-    elif event == 'Pin4':
-        pressButton(cap[4])
-    elif event == 'Pin5':
-        pressButton(cap[5])
-    elif event == 'Pin6':
-        pressButton(cap[6])
-    elif event == 'Pin7':
-        pressButton(cap[7])
-    elif event == 'Pin8':
-        pressButton(cap[8])
-    elif event == 'Pin9':
-        pressButton(cap[9])
+    update_buttons()
+        
 
 window.close()

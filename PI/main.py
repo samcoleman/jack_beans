@@ -11,7 +11,7 @@ else:
     import RPi.GPIO as GPIO
 
 min_button = 0.3
-timeout_button = 10
+timeout_button = 5
 
 def pressButton(pin: int):
     print("Button Pressed: " + str(pin))
@@ -81,6 +81,7 @@ layout = [[ sg.Button('Hot Chocolate', button_color=('white', 'black'), key='hot
 
 
 window = sg.Window("TEST", layout, auto_size_buttons=True, default_button_element_size=(50,5), use_default_focus=False, finalize=True)
+window.maximize()
 
 for button in state.keys():
     window[button].bind('<ButtonPress-1>' , "-p")

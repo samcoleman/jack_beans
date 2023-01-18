@@ -1,5 +1,5 @@
 # Left to Right 
-cap = {
+caps = {
     "unknown_1": 21,
     "hot_chocolate": 20,
     "cappuccino": 26,
@@ -12,5 +12,13 @@ cap = {
     "power": 1
 }
 
-# Wire 7 to 0
-led = [ 0, 7, 8, 11, 25, 9, 10, 24]
+leds = {
+    "7": 0,
+    "6": 7,
+    "5": 8,
+    "4": 11,
+    "3": 25,
+    "2": 9,
+    "1": 10,
+    "0": 24,
+}

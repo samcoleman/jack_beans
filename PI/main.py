@@ -20,13 +20,13 @@ def log(message: str):
 
 def pressButton(pin: int):
     log("Button Pressed: " + str(pin))
-    GPIO.setup(pin, GPIO.OUTPUT)
+    GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     return 0
 
 def releaseButton(pin: int):
     log("Button Released: " + str(pin))
-    GPIO.setup(pin, GPIO.OUTPUT)
+    GPIO.setup(pin, GPIO.IN)
     return 0
 
 def update_buttons():
@@ -64,10 +64,10 @@ def setup():
     GPIO.setmode(GPIO.BCM)
 
     for p in caps.keys():
-        GPIO.setup(caps[p], GPIO.INPUT)
+        GPIO.setup(caps[p], GPIO.IN)
 
     for p in leds.keys():
-        GPIO.setup(leds[p], GPIO.INPUT)
+        GPIO.setup(leds[p], GPIO.IN)
 
     return 0
 
@@ -89,7 +89,7 @@ led_state = {
     "6": [False, False],
     "5": [False, False],
     "4": [False, False],
-    "3": [False, True],
+    "3": [False, False],
     "2": [False, False],
     "1": [False, False],
     "0": [False, False],

@@ -122,6 +122,9 @@ while True:
     event, values = window.read(timeout=100)
     if event == sg.WINDOW_CLOSED:
         break
+
+    if event == "log":
+        log("LOG")
     
     button = event.replace("-p", "")
     if button in caps.keys():
@@ -131,10 +134,11 @@ while True:
             button_state[event.replace("-p", "")][0] = False
 
     for led in led_state.keys():
-        led_state[led][0] = True#GPIO.input(leds[led])
+        led_state[led][0] = GPIO.input(leds[led])
 
     update_buttons()     
     update_inputs() 
 
 log("END")
 window.close()
+GPIO.cleanup()

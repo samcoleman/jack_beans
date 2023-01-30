@@ -1,25 +1,33 @@
-import { createTRPCReact } from "@trpc/react-query";
-import type { AppRouter } from "@acme/api";
-/**
- * Extend this function when going to production by
- * setting the baseUrl to your production API URL.
- */
-import Constants from "expo-constants";
-/**
- * A wrapper for your app that provides the TRPC context.
- * Use only in _app.tsx
- */
 import React from "react";
+import Constants from "expo-constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
+import { createTRPCReact } from "@trpc/react-query";
+import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "@acme/api";
 import { transformer } from "@acme/api/transformer";
-import { useAuth } from "@clerk/clerk-expo";
 
 /**
  * A set of typesafe hooks for consuming your API.
  */
-export const trpc = createTRPCReact<AppRouter>();
+export const api = createTRPCReact<AppRouter>();
 
+/**
+ * Inference helpers for input types
+ * @example type HelloInput = RouterInputs['example']['hello']
+ **/
+export type RouterInputs = inferRouterInputs<AppRouter>;
+
+/**
+ * Inference helpers for output types
+ * @example type HelloOutput = RouterOutputs['example']['hello']
+ **/
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+/**
+ * Extend this function when going to production by
+ * setting the baseUrl to your production API URL.
+ */
 const getBaseUrl = () => {
   /**
    * Gets the IP address of your host-machine. If it cannot automatically find it,
@@ -32,22 +40,19 @@ const getBaseUrl = () => {
   return `http://${localhost}:3000`;
 };
 
-export const TRPCProvider: React.FC<{
-  children: React.ReactNode;
-}> = ({ children }) => {
-  const { getToken } = useAuth();
+/**
+ * A wrapper for your app that provides the TRPC context.
+ * Use only in _app.tsx
+ */
+export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [queryClient] = React.useState(() => new QueryClient());
   const [trpcClient] = React.useState(() =>
-    trpc.createClient({
+    api.createClient({
       transformer,
       links: [
         httpBatchLink({
-          async headers() {
-            const authToken = await getToken();
-            return {
-              Authorization: authToken ?? undefined,
-            };
-          },
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
@@ -55,8 +60,8 @@ export const TRPCProvider: React.FC<{
   );
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
+    </api.Provider>
   );
 };

@@ -1,15 +1,19 @@
-// src/pages/_app.tsx
 import "../styles/globals.css";
 import type { AppType } from "next/app";
-import { ClerkProvider } from "@clerk/nextjs";
-import { trpc } from "../utils/trpc";
+import type { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
 
-const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
+import { api } from "~/utils/api";
+
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
-    <ClerkProvider {...pageProps}>
+    <SessionProvider session={session}>
       <Component {...pageProps} />
-    </ClerkProvider>
+    </SessionProvider>
   );
 };
 
-export default trpc.withTRPC(MyApp);
+export default api.withTRPC(MyApp);

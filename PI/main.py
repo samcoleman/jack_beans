@@ -109,7 +109,7 @@ layout = [[ sg.Button('Hot Chocolate', button_color=('white', 'black'), key='hot
 
 
 window = sg.Window("TEST", layout, auto_size_buttons=True, default_button_element_size=(50,5), use_default_focus=False, finalize=True)
-window.maximize()
+
 
 for button in button_state.keys():
     window[button].bind('<ButtonPress-1>' , "-p")

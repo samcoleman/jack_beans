@@ -2,8 +2,6 @@ var fs = require('fs')
 var httpProxy = require('http-proxy');
 var https = require('https');
 
-var KEY  = '.certs/rootCA-key.pem';
-var CERT = '.certs/rootCA.pem';
 
 httpProxy.createServer({
     target: {

@@ -4,14 +4,14 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
 import { cm_serial_info } from "../utils/const";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import ModalSerial from "../components/ModalSerial";
 
 
 const Home: NextPage = () => {
   //const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   const [port, setPort] = useState<SerialPort>();
-  const [devTools, setDevTools] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -32,6 +32,7 @@ const Home: NextPage = () => {
     }else{
         console.log("The serial port is not supported in this browser.")
     }
+
     // eslint-disable-next-line 
   }, []);
 
@@ -104,6 +105,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+        
+      
+        <ModalSerial/>
+
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             Jacks Beans
@@ -147,31 +152,7 @@ const Home: NextPage = () => {
           */}
         </div>
         <div  className="flex flex-auto"/>
-        <footer className="container flex justify-start flex-row-reverse gap-4 p-4">
-            <button 
-                className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                onClick={() => setDevTools(!devTools)}>
-                <h1 className="text-lg">Dev Tools</h1>
-            </button>
-            {
-                devTools ?
-                <>
-                <button 
-                    className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                    onClick={requestSerial}>
-                    <h1 className="text-lg">Authorise Serial</h1>
-                </button>
-                <button 
-                    className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                    onClick={openPort}>
-                    <h1 className="text-lg">Reconnect Serial</h1>
-                </button>
-                </>
-
-                : null
-
-            }
-          
+        <footer className="container flex justify-start flex-row-reverse gap-4 p-4">    
         </footer>
       </main>
 

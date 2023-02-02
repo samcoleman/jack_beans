@@ -1,63 +1,99 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
+import { cm_serial_info } from "../utils/const";
 import { useEffect, useState } from "react";
 
+
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  //const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   const [port, setPort] = useState<SerialPort>();
   const [devTools, setDevTools] = useState<boolean>(false);
 
 
   useEffect(() => {
-    if (!("serial" in navigator)){
+    if ("serial" in navigator){
+        console.log("Serial port is supported in this browser.")
+
+
+
+        void checkConnection();
+        navigator.serial.addEventListener("connect", (event) => {
+            // TODO: Automatically open event.target or warn user a port is available.
+            console.log("Navigator serial connect event")
+        });
+        navigator.serial.addEventListener("disconnect", (event) => {
+            // TODO: Automatically open event.target or warn user a port is available.
+            console.log("Navigator serial disconnect event")
+        });
+    }else{
         console.log("The serial port is not supported in this browser.")
-        return;
     }
+    // eslint-disable-next-line 
+  }, []);
 
-    checkConnection();
-    const interval = setInterval(() => {
-        if (port) {
-            clearInterval(interval)
-        }else {
-            checkConnection();
-        }
-    }, 3000);
+  const deviceConnected = (data : any) => {
+    console.log("Device connected")
+  }
 
-
-    return () => clearInterval(interval);
-
-  }, [port]);
+  const deviceDisconnected = (data : any) => {
+    console.log("Device disconnected")
+    setPort(undefined);
+  }
 
   const requestSerial = async () => {
     try {
         const portRequest = await navigator.serial.requestPort({
-            filters: [{ usbVendorId: 0x2341, usbProductId: 0x0043 }]
+            filters: [cm_serial_info]
         });
-
+        portRequest.addEventListener("disconnect", deviceDisconnected);
         setPort(portRequest);
     }catch(error) {
         console.log(error);
     }
-    
-  
+  };
+
+  const openPort = async () => {
+    try {
+      const ports = await navigator.serial.getPorts();
+      console.log(ports)
+      if (ports.length > 0) {
+        await ports[0]?.open({ baudRate: 9600 });
+        ports[0]?.addEventListener("connect", deviceConnected);
+        ports[0]?.addEventListener("disconnect", deviceDisconnected);
+        setPort(ports[0])
+      }else{
+        console.log("No ports found")
+      }
+    } catch (error) {
+      setPort(undefined);
+      console.error("Could not open port");
+    }
   };
 
   const checkConnection = async () => {
     console.log("Checking connection...")
+
     const ports = await navigator.serial.getPorts();
 
-    // Look for the correct serial port
-    if (ports.length > 0){
-        
-        setPort(ports[0]);
-        
-    }
+    ports.forEach( (port) => {
+        port.addEventListener("connect", deviceConnected);
+        /*
+        const info = port.getInfo();
+        if (info.usbProductId == cm_serial_info.usbProductId && info.usbVendorId == cm_serial_info.usbVendorId){
+            console.log("Connection found")
+            setPort(port)
+            found = true;
+        }
+        */
+    });
   }
+
+  
+
 
 
   return (
@@ -88,6 +124,7 @@ const Home: NextPage = () => {
                         </>
                 }
             </div>
+            {/*
             <div
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white"
             >
@@ -98,7 +135,7 @@ const Home: NextPage = () => {
               </div>
               <AuthShowcase />
             </div>
-    
+            */}
           </div>
           {/*
           <div className="flex flex-col items-center gap-2">
@@ -123,6 +160,11 @@ const Home: NextPage = () => {
                     className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
                     onClick={requestSerial}>
                     <h1 className="text-lg">Authorise Serial</h1>
+                </button>
+                <button 
+                    className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                    onClick={openPort}>
+                    <h1 className="text-lg">Reconnect Serial</h1>
                 </button>
                 </>
 

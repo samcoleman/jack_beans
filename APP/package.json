@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "proxy": "node proxy.js",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
@@ -17,6 +18,9 @@
     "@trpc/next": "^10.9.0",
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
+    "@types/w3c-web-serial": "^1.0.3",
+    "http-proxy": "^1.18.1",
+    "local-ssl-proxy": "^1.3.0",
     "next": "13.1.6",
     "next-auth": "^4.19.0",
     "react": "18.2.0",

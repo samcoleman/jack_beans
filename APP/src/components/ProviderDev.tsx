@@ -14,14 +14,14 @@ export function useDev() {
 	return context;
 }
 
-export function ProviderDev({ children }) {
+export function ProviderDev({ children } : { children: React.ReactNode }) {
   const [dev, setDev] = React.useState(false);
 
     useEffect(() => {
         const callback = (event: KeyboardEvent) => {
             // event.metaKey - pressed Command key on Macs
             // event.ctrlKey - pressed Control key on Linux or Windows
-            if ((event.ctrlKey) && event.code === 'KeyD') {
+            if ((event.ctrlKey) && event.code === 'KeyB') {
                 console.log(`Dev mode: ${dev}`)
                 setDev(!dev);
             }

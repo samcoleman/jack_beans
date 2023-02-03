@@ -6,6 +6,7 @@ import { api } from "../utils/api";
 
 import "../styles/globals.css";
 import ProviderDev from "../components/ProviderDev";
+import ProviderSerial from "../components/ProviderSerial";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -17,7 +18,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
         <ProviderDev>
-            <Component {...pageProps} />
+            <ProviderSerial>
+                <Component {...pageProps} />
+            </ProviderSerial>
         </ProviderDev> 
     </SessionProvider>
   );

@@ -1,72 +1,13 @@
 import { useState } from "react";
 import { useDev } from "./ProviderDev";
 import { cm_serial_info } from "../utils/const";
+import { useSerial } from "./ProviderSerial";
 
 
 export const ModalSerial : React.FC = () => {
     const dev = useDev();
 
-
-    const deviceConnected = (data : any) => {
-        console.log("Device connected")
-      }
-    
-      const deviceDisconnected = (data : any) => {
-        console.log("Device disconnected")
-        setPort(undefined);
-      }
-    
-      const requestSerial = async () => {
-        try {
-            const portRequest = await navigator.serial.requestPort({
-                filters: [cm_serial_info]
-            });
-            portRequest.addEventListener("disconnect", deviceDisconnected);
-            setPort(portRequest);
-        }catch(error) {
-            console.log(error);
-        }
-      };
-    
-      const openPort = async () => {
-        try {
-          const ports = await navigator.serial.getPorts();
-          console.log(ports)
-          if (ports.length > 0) {
-            await ports[0]?.open({ baudRate: 9600 });
-
-            ports[0]?.addEventListener("connect", deviceConnected);
-            ports[0]?.addEventListener("disconnect", deviceDisconnected);
-            setPort(ports[0])
-          }else{
-            console.log("No ports found");
-          }
-        } catch (error) {
-          setPort(undefined);
-          console.error("Could not open port");
-        }
-      };
-    
-      const checkConnection = async () => {
-        console.log("Checking connection...")
-    
-        const ports = await navigator.serial.getPorts();
-    
-        ports.forEach( (port) => {
-            port.addEventListener("connect", deviceConnected);
-            /*
-            const info = port.getInfo();
-            if (info.usbProductId == cm_serial_info.usbProductId && info.usbVendorId == cm_serial_info.usbVendorId){
-                console.log("Connection found")
-                setPort(port)
-                found = true;
-            }
-            */
-        });
-      }
-
-
-
+    const { canUseSerial, retry, connect } = useSerial();
     return(
         <>
         <div
@@ -83,22 +24,28 @@ export const ModalSerial : React.FC = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed text-center px-10">
-                    Check USB connection to machine <br/>
-                    Connection is retried automatically
-                  </p>
+                    {canUseSerial ? 
+                        <p className="my-4 text-slate-500 text-lg leading-relaxed text-center px-10">
+                            Check USB connection to machine <br/>
+                            Connection is retried automatically
+                        </p>
+                      :
+                        <p className="my-4 text-slate-500 text-lg leading-relaxed text-center px-10">
+                            Browser does not support serial connections
+                        </p>
+                    }
                 </div>
                 { dev ?
                      <div className="flex flex-row-reverse items-center justify-start gap-4 p-6 border-t border-solid border-slate-200 rounded-b">
                          <button 
                              className="flex max-w-xs flex-col gap-4 rounded-xl bg-slate-600 p-4 text-white hover:bg-slate-600/50"
-                             onClick={requestSerial}>
-                             <h1 className="text-sm ">Authorise Serial</h1>
+                             onClick={connect}>
+                             <h1 className="text-sm ">Auth Connection</h1>
                          </button>
                          <button 
                              className="flex max-w-xs flex-col gap-4 rounded-xl bg-slate-600 p-4 text-white hover:bg-slate-600/50"
-                             onClick={openPort}>
-                             <h1 className="text-sm">Reconnect Serial</h1>
+                             onClick={retry}>
+                             <h1 className="text-sm ">Retry Connection</h1>
                          </button>
                      </div>
             

@@ -14,9 +14,18 @@ const Home: NextPage = () => {
     //const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
     const dev = useDev()
-    const { portState, subscribe, tx } = useSerial();
+    const { portState, subscribe, tx, rx } = useSerial();
 
     const [input, setInput ] = useState("");
+
+    useEffect(() => {
+        const unsubscribe = subscribe((message) => {
+            const { value, timestamp } = message;
+
+            console.log("message", message);
+        });
+        return unsubscribe;
+    }, []);
 
     const onChange = (e) => {
         setInput(e.target.value)
@@ -24,6 +33,24 @@ const Home: NextPage = () => {
     const onSubmit = (e) => {
         const bytes = Uint8Array.from(Buffer.from(input, 'hex'));
         tx(bytes)
+    }
+
+    const pressButton = async (button: Uint8Array) => {
+        tx(button)
+        const res = await rx()
+
+        let handshake = new Uint8Array([...res, 0])
+        handshake[handshake.length-1] = res[res.length-1]!
+        handshake[handshake.length-2] = 0
+
+        tx(handshake)
+        const res_hand = await rx()
+
+        if (res_hand === res) {
+            console.log("Handshake success")
+        }else{
+            console.log("Handshake failed")
+        }
     }
 
   return (
@@ -46,7 +73,7 @@ const Home: NextPage = () => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
           <button
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-              onClick={() => tx(serial.button_commands.cappuccino)}
+              onClick={async () => {pressButton(serial.button_commands.cappuccino)}}
             >
                 <h3 className="text-2xl font-bold text-center">Cappuccino</h3>
             </button>

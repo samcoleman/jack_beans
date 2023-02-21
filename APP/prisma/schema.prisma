@@ -14,10 +14,41 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum SerialType {
+    TX
+    RX
+}
+
+model Kiosk {
+    id              String      @id @default(cuid())
+    address         String
+    client          Client[] 
+    clientId        Int
+    serialLogs      SerialLog[]
+}
+
+model SerialLog {
+    id              String      @id @default(cuid())
+    type            SerialType
+    data            Bytes
+    kiosk           Kiosk       @relation(fields:[kioskId], references:[id], onDelete: Cascade)
+    kioskId         String
+    createdAt       DateTime    @default(now())
+    updatedAt       DateTime    @updatedAt
+}
+
+model Client {
+    id              String   @id @default(cuid())
+    name            String
+    kiosks          Kiosk[]
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+}
+
 model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id              String   @id @default(cuid())
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -34,7 +65,7 @@ model Account {
     scope             String?
     id_token          String?  @db.Text
     session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
@@ -53,7 +84,6 @@ model User {
     name          String?
     email         String?   @unique
     emailVerified DateTime?
-    image         String?
     accounts      Account[]
     sessions      Session[]
 }

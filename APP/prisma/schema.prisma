@@ -22,8 +22,7 @@ enum SerialType {
 model Kiosk {
     id              String      @id @default(cuid())
     address         String
-    client          Client[] 
-    clientId        Int
+    scopes          Scope[] 
     serialLogs      SerialLog[]
 }
 
@@ -37,12 +36,11 @@ model SerialLog {
     updatedAt       DateTime    @updatedAt
 }
 
-model Client {
-    id              String   @id @default(cuid())
-    name            String
-    kiosks          Kiosk[]
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+model Scope{
+    id             String      @id @default(cuid())
+    name           String
+    kiosks         Kiosk[]
+    users          User[]
 }
 
 model Example {
@@ -80,17 +78,13 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    role          Role      @default(KIOSK)
+    scopes        Scope[]
     name          String?
+    image         String?
     email         String?   @unique
     emailVerified DateTime?
     accounts      Account[]
     sessions      Session[]
-}
-
-enum Role {
-    KIOSK
-    ADMIN
 }
 
 model VerificationToken {

@@ -21,6 +21,11 @@ export const serverSchema = z.object({
   ),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
+  AUTH0_SECRET: z.string(),
+  AUTH0_BASE_URL: z.string(),
+  AUTH0_ISSUER_BASE_URL: z.string(),
+  AUTH0_CLIENT_ID: z.string(),
+  AUTH0_CLIENT_SECRET: z.string(),
 });
 
 /**
@@ -35,6 +40,11 @@ export const serverEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+  AUTH0_SECRET: process.env.AUTH0_SECRET,
+  AUTH0_BASE_URL: process.env.AUTH0_BASE_URL,
+  AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
+  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+  AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET
 };
 
 /**

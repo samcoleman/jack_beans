@@ -5,9 +5,11 @@ import {
   type DefaultSession,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
+import Auth0Provider from   "next-auth/providers/auth0";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env/server.mjs";
 import { prisma } from "./db";
+import { Scope } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types
@@ -15,17 +17,18 @@ import { prisma } from "./db";
  * and keep type safety
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  **/
-type UserRole = "KIOSK" | "ADMIN";
+
+
+
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      role: UserRole;
+      scopes: Scope[];
     } & DefaultSession["user"];
   }
-
   interface User {
-    role: UserRole;
+    scopes: Scope[]
   }
 }
 
@@ -39,17 +42,18 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        session.user.role = user.role;
+        session.user.scopes = user.scopes;
       }
       return session;
     },
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-    }),
+    Auth0Provider({
+        clientId: env.AUTH0_CLIENT_ID,
+        clientSecret: env.AUTH0_CLIENT_SECRET,
+        issuer: env.AUTH0_ISSUER_BASE_URL,
+    })
     /**
      * ...add more providers here
      *

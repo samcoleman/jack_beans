@@ -6,6 +6,7 @@
     "build": "next build",
     "proxy": "node proxy.js",
     "dev": "next dev",
+    "prisma": "prisma studio --port 5556",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"

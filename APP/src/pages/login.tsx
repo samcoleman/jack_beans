@@ -28,14 +28,15 @@ const Home: NextPage = () => {
                 <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
                     Authorised Route
                 </h1>
-                <div className="flex flex-col items-center justify-center bg-white/20 py-4 px-8 rounded-full mt-20">
-                    <button
-                    className="text-2xl font-semibold text-white no-underline"
+                <button 
+                    className="flex flex-col items-center justify-center bg-white/20 py-4 px-8 rounded-full mt-20"
                     onClick={() => signIn("auth0", { callbackUrl: getCallback() })}
-                    >
+                >
+                    <div
+                    className="text-2xl font-semibold text-white no-underline">
                     Log in
-                    </button>
-                </div>
+                    </div>
+                </button>
             </div>
             <div  className="flex flex-auto"/>
             <footer className="container flex justify-center flex-row-reverse m-10">   

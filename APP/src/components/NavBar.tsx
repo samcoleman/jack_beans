@@ -1,9 +1,11 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { api } from "../utils/api";
+import React from "react";
 
+type Link = {name: string, path: string}
 
-const navLinks = [
+const adminLinks : Link[] = [
     { name: "Kiosk", 
      path: "/admin/kiosk" 
     },
@@ -13,15 +15,25 @@ const navLinks = [
     }
 ];
 
+const dashLinks : Link[] = [
+    { 
+        name: "Overview",
+        path: "/dash/overview"
+    },
+    {
+        name: "Logs",
+        path: "/dash/logs",
+    },
+]
 
-const NavBar = () => {
-    //const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
+const NavBar : React.FC<{links: Link[]}> = (props: {links: Link[]}) => {
   return (
-        <nav className="flex flex-row items-center w-full justify-start gap-12 px-24 py-3 bg-gray-600">
-            {navLinks.map((link, index) => {
+        <nav className="flex items-center justify-center bg-[#EBE451] sticky top-0 z-50">
+            <div className="container flex flex-row items-center w-full justify-start py-3 gap-12 ">
+            {props.links.map((link, index) => {
             return (
-                <ul className="text-ml font-extrabold tracking-tight text-white ">
+                <ul key={index} className="text-ml font-extrabold tracking-tight text-neutral-800 hover:text-neutral-600" >
                     <Link href={link.path} >
                         <li key={index}>{link.name}</li>
                     </Link>
@@ -29,33 +41,25 @@ const NavBar = () => {
             );
             })}
             <div className="grow"/>
-            <AuthShowcase />
+            <button
+                className="text-ml font-extrabold text-neutral-800 no-underline hover:text-neutral-600"
+                onClick={() => signOut()}
+                >
+                Log out
+            </button>   
+            </div>        
         </nav>
   );
 };
 
-export default NavBar;
+export const AdminNavBar : React.FC = () => {
+    return(
+        <NavBar links={adminLinks}/>
+    )
+}
 
-const AuthShowcase: React.FC = () => {
-    const { data: sessionData } = useSession();
-  
-    const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-      undefined, // no input
-      { enabled: sessionData?.user !== undefined },
-    );
-  
-    return (
-      <div className="flex flex-col items-center justify-center">
-        <p className="text-center text-ml text-white">
-          {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-          {secretMessage && <span> - {secretMessage}</span>}
-        </p>
-        <button
-          className="text-ml font-semibold text-white no-underline"
-          onClick={sessionData ? () => void signOut() : () => void signIn()}
-        >
-          {sessionData ? "Log out" : "Log in"}
-        </button>
-      </div>
-    );
-  };
+export const DashNavBar : React.FC = () => {
+    return(
+        <NavBar links={dashLinks}/>
+    )
+}

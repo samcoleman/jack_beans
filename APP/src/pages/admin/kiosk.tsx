@@ -4,7 +4,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../../utils/api";
 import Link from "next/link";
-import NavBar from "../../components/NavBar";
+import {AdminNavBar} from "../../components/NavBar";
 import { useEffect, useState } from "react";
 import { json } from "stream/consumers";
 import { Kiosk } from "@prisma/client";
@@ -100,7 +100,7 @@ const Kiosk: NextPage = () => {
         <meta name="description" content="Jacks Beans - Admin Panel" />
         <link rel="icon" href="/favicon.ico" />
     </Head>
-    <NavBar />
+    <AdminNavBar />
     <main className="flex min-h-screen justify-center bg-[#232020]">
         <div className="container flex flex-col items-center gap-12 py-12">
             <div className="flex flex-row justify-center min-w-full gap-12">

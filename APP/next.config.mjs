@@ -21,6 +21,11 @@ const config = {
         destination: '/admin/kiosk',
         permanent: true,
       },
+      {
+        source: '/dash',
+        destination: '/dash/overview',
+        permanent: true,
+      },
     ]
   },
 };

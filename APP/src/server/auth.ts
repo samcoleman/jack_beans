@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
      * NextAuth.js docs for the provider you want to use. Example:
      * @see https://next-auth.js.org/providers/github
      **/
-  ],
+  ]
 };
 
 /**

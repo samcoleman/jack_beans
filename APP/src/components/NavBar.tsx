@@ -28,6 +28,8 @@ const dashLinks : Link[] = [
 
 
 const NavBar : React.FC<{links: Link[]}> = (props: {links: Link[]}) => {
+
+    const { data: session } = useSession();
   return (
         <nav className="flex items-center justify-center bg-[#EBE451] sticky top-0 z-50">
             <div className="container flex flex-row items-center w-full justify-start py-3 gap-12 ">
@@ -41,6 +43,7 @@ const NavBar : React.FC<{links: Link[]}> = (props: {links: Link[]}) => {
             );
             })}
             <div className="grow"/>
+            <p className="flex text-neutral-800">{session?.user.email}</p>
             <button
                 className="text-ml font-extrabold text-neutral-800 no-underline hover:text-neutral-600"
                 onClick={() => signOut()}

@@ -14,7 +14,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-enum SerialType {
+enum SerialDirection {
     TX
     RX
 }
@@ -28,7 +28,8 @@ model Kiosk {
 
 model SerialLog {
     id              String      @id @default(cuid())
-    type            SerialType
+    type            SerialDirection
+    fn              String
     data            Bytes
     kiosk           Kiosk       @relation(fields:[kioskId], references:[id], onDelete: Cascade)
     kioskId         String
@@ -39,6 +40,9 @@ model SerialLog {
 model Scope{
     id             String      @id @default(cuid())
     name           String
+    rootId         String?
+    root           Scope?      @relation("RootChildren", fields:[rootId], references: [id])
+    children       Scope[]     @relation("RootChildren")
     kiosks         Kiosk[]
     users          User[]
 }

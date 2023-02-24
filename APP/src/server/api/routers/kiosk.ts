@@ -16,7 +16,7 @@ export const kioskRouter = createTRPCRouter({
             return kiosk
 
         }else{
-            return null
+            return undefined
         }
     })
 });

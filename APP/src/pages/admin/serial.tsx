@@ -2,10 +2,16 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import {AdminNavBar} from "../../components/NavBar";
+import { api } from "../../utils/api";
+import { useSession } from "next-auth/react";
 
 
 const Serial: NextPage = () => {
-    //const hello = api.example.hello.useQuery({ text: "from tRPC" });
+    const { data: session } = useSession();
+
+    const getScopes = async () => {
+        console.log(session?.user)
+    }
 
   return (
     <>
@@ -16,6 +22,13 @@ const Serial: NextPage = () => {
     </Head>
     <AdminNavBar />
     <main className="flex min-h-screen flex-col items-center justify-center bg-[#232020]">
+
+        <button className="bg-[#232020] text-white font-bold py-2 px-4 rounded" onClick={getScopes}>
+            Get Scopes
+        </button>
+        <p>
+            {session?.user?.scopeIds}
+        </p>
         <footer className="container flex justify-center flex-row-reverse">   
         </footer>
     </main>

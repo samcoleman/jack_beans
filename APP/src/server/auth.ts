@@ -4,13 +4,11 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
 import Auth0Provider from   "next-auth/providers/auth0";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env/server.mjs";
 import { prisma } from "./db";
-import { Scope } from "@prisma/client";
-import { api } from "../utils/api";
+import { getAllScopes } from "./scopes";
 /**
  * Module augmentation for `next-auth` types
  * Allows us to add custom properties to the `session` object
@@ -18,13 +16,11 @@ import { api } from "../utils/api";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  **/
 
-
-
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      scopeId?: String;
+      scopeIds?: String[];
     } & DefaultSession["user"];
   }
   interface User {
@@ -38,32 +34,16 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  **/
 export const authOptions: NextAuthOptions = {
-/*
-    callbacks: {
-        async jwt({token, user, account, profile, isNewUser}) {
-        if (account?.accessToken) {
-            token.accessToken = account.accessToken
-        }
-        if (user?.scopes) {
-            token.scopes = user.scopes
-        }
-        return token
-        },
-        async session({session, token}) {
-        if (token?.roles) {
-            session.user.scopes = token.scope
-        }
-        return session
-        }
-        */
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
+      // This is kind of ugly, attaches the user's ID to the session & all user scopes
       if (session.user) {
         session.user.id = user.id;
-        session.user.scopeId = user.scopeId;
+        console.log(user.scopeId)
+        session.user.scopeIds = await getAllScopes(user.scopeId as string)
       }
       return session;
-    },
+    }
     
   },
   adapter: PrismaAdapter(prisma),

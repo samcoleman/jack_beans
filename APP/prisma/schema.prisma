@@ -78,7 +78,8 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    scopes        Scope[]
+    scope         Scope?    @relation(fields:[scopeId], references:[id], onDelete: NoAction)
+    scopeId       String?
     name          String?
     image         String?
     email         String?   @unique

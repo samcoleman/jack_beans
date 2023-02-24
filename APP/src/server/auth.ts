@@ -10,7 +10,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env/server.mjs";
 import { prisma } from "./db";
 import { Scope } from "@prisma/client";
-
+import { api } from "../utils/api";
 /**
  * Module augmentation for `next-auth` types
  * Allows us to add custom properties to the `session` object
@@ -24,11 +24,11 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      scopes: Scope[];
+      scopeId?: String;
     } & DefaultSession["user"];
   }
   interface User {
-    scopes: Scope[]
+    scopeId?: String
   }
 }
 
@@ -38,14 +38,33 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  **/
 export const authOptions: NextAuthOptions = {
+/*
+    callbacks: {
+        async jwt({token, user, account, profile, isNewUser}) {
+        if (account?.accessToken) {
+            token.accessToken = account.accessToken
+        }
+        if (user?.scopes) {
+            token.scopes = user.scopes
+        }
+        return token
+        },
+        async session({session, token}) {
+        if (token?.roles) {
+            session.user.scopes = token.scope
+        }
+        return session
+        }
+        */
   callbacks: {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        session.user.scopes = user.scopes;
+        session.user.scopeId = user.scopeId;
       }
       return session;
     },
+    
   },
   adapter: PrismaAdapter(prisma),
   providers: [

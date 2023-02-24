@@ -40,6 +40,8 @@ const Kiosk: NextPage = () => {
         undefined, 
         {enabled: session?.user !== undefined}
     );
+
+    
     const validate = api.kiosk.checkValid.useMutation()
 
 
@@ -79,7 +81,6 @@ const Kiosk: NextPage = () => {
                 }
             }
         }
-
         const kioskIdAssignment = checkKioskIdAssignment();
         setAssigned(kioskIdAssignment);
         const kioskIdValid = await checkKioskIdValid(kioskIdAssignment);

@@ -5,7 +5,11 @@ import { contextProps } from "@trpc/react-query/shared";
 
 export const kioskRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.kiosk.findMany();
+    return ctx.prisma.kiosk.findMany({
+        where: {
+            scopeId: { in: ctx.session.user.scopeIds as string[] }
+        }
+    });
   }),
 
   checkValid: protectedProcedure

@@ -22,7 +22,8 @@ enum SerialDirection {
 model Kiosk {
     id              String      @id @default(cuid())
     address         String
-    scopes          Scope[] 
+    scope           Scope?      @relation(fields:[scopeId], references:[id], onDelete: NoAction)
+    scopeId         String?
     serialLogs      SerialLog[]
 }
 
@@ -43,6 +44,7 @@ model Scope{
     rootId         String?
     root           Scope?      @relation("RootChildren", fields:[rootId], references: [id])
     children       Scope[]     @relation("RootChildren")
+
     kiosks         Kiosk[]
     users          User[]
 }

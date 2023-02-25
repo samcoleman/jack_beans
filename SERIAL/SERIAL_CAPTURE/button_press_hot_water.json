@@ -49,7 +49,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "26",
-          "usb.response_in": "952",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -186,7 +185,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "28",
-          "usb.response_in": "972",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -323,7 +321,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "27",
-          "usb.response_in": "994",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -460,7 +457,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "27",
-          "usb.response_in": "1024",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -597,7 +593,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "28",
-          "usb.response_in": "1060",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -734,7 +729,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "26",
-          "usb.response_in": "1472",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -871,7 +865,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "28",
-          "usb.response_in": "1492",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -1008,7 +1001,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "27",
-          "usb.response_in": "1510",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -1145,7 +1137,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "27",
-          "usb.response_in": "1540",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -1282,7 +1273,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "28",
-          "usb.response_in": "1582",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {

@@ -49,7 +49,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "26",
-          "usb.response_in": "822",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -186,7 +185,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "26",
-          "usb.response_in": "836",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -323,7 +321,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "26",
-          "usb.response_in": "852",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -460,7 +457,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "28",
-          "usb.response_in": "874",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -597,7 +593,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "27",
-          "usb.response_in": "896",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -812,7 +807,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "27",
-          "usb.response_in": "934",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {
@@ -949,7 +943,6 @@
           },
           "usb.transfer_type": "0x03",
           "usb.data_len": "28",
-          "usb.response_in": "952",
           "usb.bInterfaceClass": "0xff"
         },
         "ftdi-ft": {

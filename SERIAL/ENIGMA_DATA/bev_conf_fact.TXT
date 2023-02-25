@@ -1,0 +1,1857 @@
+*** 25/02/2023  14:15:42 ***
+
+************ 0 - Tas. Dummy ************
+
+   common
+      bev. no                   = x2
+      brew                      = FILTER
+      brewing mode              = LOCKED
+      amt. powder               = 3000 mg
+      amt. water                = 100 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 1 - 1 cappuccino ************
+
+   common
+      bev. no                   = 1 cappuccino
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4100 mg
+      amt. water                = 35 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 105 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 105
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 2 - 2 cappuccino ************
+
+   common
+      bev. no                   = 2 cappuccino
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6900 mg
+      amt. water                = 70 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 205 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 205
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 3 - 1 cafe creme ************
+
+   common
+      bev. no                   = 1 cafe creme
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 3700 mg
+      amt. water                = 140 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 4 - 2 cafe creme ************
+
+   common
+      bev. no                   = 2 cafe creme
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6100 mg
+      amt. water                = 280 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 5 - jug cafe creme ************
+
+   common
+      bev. no                   = jug cafe creme
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 180 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 6 - 2jug cafe creme ************
+
+   common
+      bev. no                   = 2jug cafe creme
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 180 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 7 - 1 espresso ************
+
+   common
+      bev. no                   = 1 espresso
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4100 mg
+      amt. water                = 35 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 8 - 2 espresso ************
+
+   common
+      bev. no                   = 2 espresso
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6900 mg
+      amt. water                = 70 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 9 - 1 cafe latte ************
+
+   common
+      bev. no                   = 1 cafe latte
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 3700 mg
+      amt. water                = 70 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 60 msec
+      time 2                    = 40 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 60
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 10 - 2 cafe latte ************
+
+   common
+      bev. no                   = 2 cafe latte
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6100 mg
+      amt. water                = 140 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 130 msec
+      time 2                    = 80 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 130
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 11 - jug cafe latte ************
+
+   common
+      bev. no                   = jug cafe latte
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 5500 mg
+      amt. water                = 65 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 85 msec
+      time 2                    = 40 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 85
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 12 - 2jug cafe latte ************
+
+   common
+      bev. no                   = 2jug cafe latte
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 5500 mg
+      amt. water                = 65 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 1 - 100.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 85 msec
+      time 2                    = 40 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 85
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 13 - foam metered ************
+
+   common
+      bev. no                   = foam metered
+      brew                      = FILTER
+      brewing mode              = DOS FOAM
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = startstop
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 100 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 100
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 14 - foam freeflow ************
+
+   common
+      bev. no                   = foam freeflow
+      brew                      = FILTER
+      brewing mode              = DOS FOAM
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = freeflow
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 90 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 90
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 15 - milk free flow ************
+
+   common
+      bev. no                   = milk free flow
+      brew                      = FILTER
+      brewing mode              = DOS MILK
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = freeflow
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 90 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 90
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 16 - milk small ************
+
+   common
+      bev. no                   = milk small
+      brew                      = FILTER
+      brewing mode              = DOS MILK
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = startstop
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 100 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 100
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 17 - milk large ************
+
+   common
+      bev. no                   = milk large
+      brew                      = FILTER
+      brewing mode              = DOS MILK
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = startstop
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 90 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 90
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 18 - blocked ************
+
+   common
+      bev. no                   = blocked
+      brew                      = FILTER
+      brewing mode              = LOCKED
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 19 - hot water ************
+
+   common
+      bev. no                   = hot water
+      brew                      = FILTER
+      brewing mode              = DOS WATER
+      amt. powder               = 3300 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = freeflow
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 180 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 180
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 20 - 1LatteMacchiato ************
+
+   common
+      bev. no                   = 1LatteMacchiato
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4100 mg
+      amt. water                = 40 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 130 msec
+      time 2                    = 100 msec
+      foam quality +-           = 10 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 130
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 1
+
+
+************ 21 - 2LatteMacchiato ************
+
+   common
+      bev. no                   = 2LatteMacchiato
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6900 mg
+      amt. water                = 80 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 260 msec
+      time 2                    = 200 msec
+      foam quality +-           = 10 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 260
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 1
+
+
+************ 22 - espr. macchiato ************
+
+   common
+      bev. no                   = espr. macchiato
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4100 mg
+      amt. water                = 25 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Hot_Milk
+      milk variant              = Milk_First
+      time 1                    = 30 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 30
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 23 - cup chocolate ************
+
+   common
+      bev. no                   = cup chocolate
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 63  g
+      time 1                    = 200  ml
+   price
+      price                     = 0
+
+
+************ 24 - mug chocolate ************
+
+   common
+      bev. no                   = mug chocolate
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 90  g
+      time 1                    = 160  ml
+   price
+      price                     = 0
+
+
+************ 25 - cafe mocha ************
+
+   common
+      bev. no                   = cafe mocha
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 30 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 80 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 80
+   Chocolate
+      time 1                    = 60  g
+      time 1                    = 90  ml
+   price
+      price                     = 0
+
+
+************ 26 - steam ************
+
+   common
+      bev. no                   = steam
+      brew                      = FILTER
+      brewing mode              = DOS STEAM
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = freeflow
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 90 msec
+      time 2                    = 60 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 90
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 27 - chociatto ************
+
+   common
+      bev. no                   = chociatto
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4100 mg
+      amt. water                = 35 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = none
+      time 1                    = 80 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 80
+   Chocolate
+      time 1                    = 31  g
+      time 1                    = 80  ml
+   price
+      price                     = 0
+
+
+************ 28 - 1 cappuccino ************
+
+   common
+      bev. no                   = 1 cappuccino
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4100 mg
+      amt. water                = 35 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milk+Foam
+      milk variant              = simultaneous
+      time 1                    = 140 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 140
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 29 - 1 cafe latte ************
+
+   common
+      bev. no                   = 1 cafe latte
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 3700 mg
+      amt. water                = 70 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milkfoam
+      milk variant              = simultaneous
+      time 1                    = 130 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 130
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 30 - 1LatteMacchiato ************
+
+   common
+      bev. no                   = 1LatteMacchiato
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4400 mg
+      amt. water                = 40 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Hot_Milk
+      milk variant              = Milk_First
+      time 1                    = 300 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 300
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 31 - chociatto ************
+
+   common
+      bev. no                   = chociatto
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 4100 mg
+      amt. water                = 35 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milkfoam
+      milk variant              = simultaneous
+      time 1                    = 130 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 130
+   Chocolate
+      time 1                    = 60  g
+      time 1                    = 90  ml
+   price
+      price                     = 0
+
+
+************ 32 - milk choc ************
+
+   common
+      bev. no                   = milk choc
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 80 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 80
+   Chocolate
+      time 1                    = 38  g
+      time 1                    = 100  ml
+   price
+      price                     = 0
+
+
+************ 33 - cappuccino [2] ************
+
+   common
+      bev. no                   = cappuccino [2]
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 5500 mg
+      amt. water                = 55 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milkfoam
+      milk variant              = Milk_Last
+      time 1                    = 75 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 75
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 34 - 2cappuccino [2] ************
+
+   common
+      bev. no                   = 2cappuccino [2]
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 8000 mg
+      amt. water                = 110 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milkfoam
+      milk variant              = Milk_Last
+      time 1                    = 140 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 140
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 35 - cappuccino [2] ************
+
+   common
+      bev. no                   = cappuccino [2]
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 5500 mg
+      amt. water                = 55 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Milkfoam
+      milk variant              = Milk_Last
+      time 1                    = 70 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 70
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 36 - pot 35 ************
+
+   common
+      bev. no                   = pot 35
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 170 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 37 - pot 50 ************
+
+   common
+      bev. no                   = pot 50
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 170 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 38 - pot 70 ************
+
+   common
+      bev. no                   = pot 70
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 170 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 39 - table water ************
+
+   common
+      bev. no                   = table water
+      brew                      = FILTER
+      brewing mode              = DOS RES03
+      amt. powder               = 3000 mg
+      amt. water                = 250 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 90 msec
+      time 2                    = 60 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 90
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 40 - water ************
+
+   common
+      bev. no                   = water
+      brew                      = FILTER
+      brewing mode              = DOS RES03
+      amt. powder               = 3000 mg
+      amt. water                = 250 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 90 msec
+      time 2                    = 60 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 90
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 41 - cup ************
+
+   common
+      bev. no                   = cup
+      brew                      = FILTER
+      brewing mode              = BREWING
+      amt. powder               = 4500 mg
+      amt. water                = 125 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = Yes
+      jet start                 = 30
+      jet end                   = 100
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 42 - 2 cup ************
+
+   common
+      bev. no                   = 2 cup
+      brew                      = FILTER
+      brewing mode              = BREWING
+      amt. powder               = 7500 mg
+      amt. water                = 250 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = Yes
+      jet start                 = 25
+      jet end                   = 100
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 43 - mug ************
+
+   common
+      bev. no                   = mug
+      brew                      = FILTER
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 200 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = Yes
+      jet start                 = 25
+      jet end                   = 100
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 44 - pot ************
+
+   common
+      bev. no                   = pot
+      brew                      = FILTER
+      brewing mode              = BREWING
+      amt. powder               = 7500 mg
+      amt. water                = 250 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = Yes
+      jet start                 = 25
+      jet end                   = 100
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 45 - jug ************
+
+   common
+      bev. no                   = jug
+      brew                      = FILTER
+      brewing mode              = BREWING
+      amt. powder               = 7500 mg
+      amt. water                = 250 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = Yes
+      jet start                 = 25
+      jet end                   = 100
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 0
+
+
+************ 46 - mocha ************
+
+   common
+      bev. no                   = mocha
+      brew                      = FILTER
+      brewing mode              = BREWING
+      amt. powder               = 5000 mg
+      amt. water                = 40 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 80 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 80
+   Chocolate
+      time 1                    = 60  g
+      time 1                    = 90  ml
+   price
+      price                     = 0
+
+
+************ 47 - cup choc 2 ************
+
+   common
+      bev. no                   = cup choc 2
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 60  g
+      time 1                    = 105  ml
+   price
+      price                     = 0
+
+
+************ 48 - mug choc 2 ************
+
+   common
+      bev. no                   = mug choc 2
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 90  g
+      time 1                    = 160  ml
+   price
+      price                     = 0
+
+
+************ 49 - milk choc 2 ************
+
+   common
+      bev. no                   = milk choc 2
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 100 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 100
+   Chocolate
+      time 1                    = 65  g
+      time 1                    = 100  ml
+   price
+      price                     = 0
+
+
+************ 50 - macha ************
+
+   common
+      bev. no                   = macha
+      brew                      = FILTER
+      brewing mode              = Powder
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 70  g
+      time 1                    = 120  ml
+   price
+      price                     = 0
+
+
+************ 51 - soup ************
+
+   common
+      bev. no                   = soup
+      brew                      = FILTER
+      brewing mode              = Powder
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 0 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 0
+   Chocolate
+      time 1                    = 70  g
+      time 1                    = 120  ml
+   price
+      price                     = 0
+
+
+************ 52 - choc milk ************
+
+   common
+      bev. no                   = choc milk
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 100 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 100
+   Chocolate
+      time 1                    = 65  g
+      time 1                    = 100  ml
+   price
+      price                     = 0
+
+
+************ 53 - choc milk 2 ************
+
+   common
+      bev. no                   = choc milk 2
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 100 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 100
+   Chocolate
+      time 1                    = 65  g
+      time 1                    = 100  ml
+   price
+      price                     = 0
+
+
+************ 54 - coffee mocha 2 ************
+
+   common
+      bev. no                   = coffee mocha 2
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6000 mg
+      amt. water                = 30 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 80 msec
+      time 2                    = 0 msec
+      foam quality +-           = 5 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 80
+   Chocolate
+      time 1                    = 60  g
+      time 1                    = 90  ml
+   price
+      price                     = 0
+
+
+************ 55 - milk choc ************
+
+   common
+      bev. no                   = milk choc
+      brew                      = FILTER
+      brewing mode              = DOS CHOCO
+      amt. powder               = 3000 mg
+      amt. water                = 10 ml
+      portion unit 1  1         = 0 - 0.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = dosed
+   brew
+   milk
+      milk addition             = none
+      foam variant              = none
+      milk variant              = none
+      time 1                    = 150 msec
+      time 2                    = 0 msec
+      foam quality +-           = 0 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 150
+   Chocolate
+      time 1                    = 100  g
+      time 1                    = 100  ml
+   price
+      price                     = 0
+
+
+************ 56 - LatteMacch.N ************
+
+   common
+      bev. no                   = LatteMacch.N
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 3900 mg
+      amt. water                = 35 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Hot_Milk
+      milk variant              = Milk_First
+      time 1                    = 70 msec
+      time 2                    = 45 msec
+      foam quality +-           = 10 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 70
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 1
+
+
+************ 57 - 2 LatteMacch.N ************
+
+   common
+      bev. no                   = 2 LatteMacch.N
+      brew                      = CREME
+      brewing mode              = BREWING
+      amt. powder               = 6400 mg
+      amt. water                = 70 ml
+      portion unit 1  1         = 1 - 100.0%
+      portion unit 1  2         = 0 - 0.0%
+      dose variant              = none
+   brew
+   milk
+      milk addition             = Hot_Milk
+      foam variant              = Hot_Milk
+      milk variant              = Milk_First
+      time 1                    = 130 msec
+      time 2                    = 90 msec
+      foam quality +-           = 10 msec
+   Jet
+      jet                       = No
+      jet start                 = 15
+      jet end                   = 16
+   hotwater
+      time 1                    = 130
+   Chocolate
+      time 1                    = 0  g
+      time 1                    = 0  ml
+   price
+      price                     = 1
+

@@ -1,0 +1,14 @@
+
+25/02/2023  14:30:48
+
+No;F-No;Flag;Time;Date;Qty;Status;Text;Info;
+1;1;0;17:37:30;09.02;2;0;F26 Current error, portioner 1;0;
+2;62;0;14:12:11;25.02;1;0;9062 Reset event!;0;
+3;108;0;14:12:12;25.02;1;0;Heat up machine (= 1st heating);0;
+4;117;0;14:12:12;25.02;4;0;softare internal: Machine is blocked;0;
+5;118;0;14:09:06;25.02;1;0;9118 Fifo buffer has been cleared;0;
+6;241;0;12:52:10;14.02;1;0;F161 Error flowmeter occurs during brewing cycle;0;
+7;243;0;13:16:08;25.02;1;0;F163 Error flowmeter occurs during check of flow rate;0;
+8;268;0;15:26:32;14.02;28;0;9268 power supply  notifies to cpu mains voltage too low;0;
+9;271;0;12:51:54;14.02;1;0;F9271 oscillation pump swiches to coast down operation mode;1;
+

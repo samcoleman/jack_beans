@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "./trpc";
 import { kioskRouter } from "./routers/kiosk";
+import { serialRouter } from "./routers/serial";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { kioskRouter } from "./routers/kiosk";
  */
 export const appRouter = createTRPCRouter({
   kiosk: kioskRouter,
+  serial: serialRouter,
 });
 
 // export type definition of API

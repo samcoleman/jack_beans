@@ -22,18 +22,9 @@ type KioskIdValid = {
     error: string;
 }
 
-/*
-    const { data: sessionData } = useSession();
-  
-    const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-      undefined, // no input
-      { enabled: sessionData?.user !== undefined },
-    );
-*/
-
 const Kiosk: NextPage = () => {
     const [assigned, setAssigned] = useState<KioskIdAssignment>({state: false, kiosk_id: "", error: ""});
-    const [valid, setValid]       = useState<KioskIdValid>({state: false, kiosk_data: {id: "", address: ""}, error: ""});
+    const [valid, setValid]       = useState<KioskIdValid>({state: false, kiosk_data: {id: "", address: "", scopeId: null}, error: ""});
 
     const { data : session } = useSession();
     const { data : kiosks }  = api.kiosk.getAll.useQuery(
@@ -41,10 +32,9 @@ const Kiosk: NextPage = () => {
         {enabled: session?.user !== undefined}
     );
 
-    
     const validate = api.kiosk.checkValid.useMutation()
 
-
+    // Probably should be global state? Not local
     const assignKioskId = (kiosk_id: string) => {
         localStorage.setItem("kiosk_id", kiosk_id);
         checkKioskId();  

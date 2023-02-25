@@ -9,8 +9,15 @@ import { useSession } from "next-auth/react";
 const Serial: NextPage = () => {
     const { data: session } = useSession();
 
+    const logger = api.serial.log.useMutation()
+
     const getScopes = async () => {
-        console.log(session?.user)
+        await logger.mutateAsync({
+            fn: "test",
+            tx: new Uint8Array([1,2,3]),
+            rx: new Uint8Array([1,2,3]),
+            kioskId: localStorage.getItem("kiosk_id")!,
+        })
     }
 
   return (

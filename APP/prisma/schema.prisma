@@ -29,10 +29,10 @@ model Kiosk {
 
 model SerialLog {
     id              String      @id @default(cuid())
-    type            SerialDirection
     fn              String
-    data            Bytes
-    kiosk           Kiosk       @relation(fields:[kioskId], references:[id], onDelete: Cascade)
+    tx              Bytes
+    rx              Bytes
+    kiosk           Kiosk       @relation(fields:[kioskId], references:[id], onDelete: NoAction)
     kioskId         String
     createdAt       DateTime    @default(now())
     updatedAt       DateTime    @updatedAt

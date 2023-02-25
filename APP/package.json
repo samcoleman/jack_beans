@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "proxy": "node proxy.js",
-    "dev": "next dev",
-    "prisma": "prisma studio --port 5556",
+    "pro": "node proxy.js",
+    "d": "next dev",
+    "p": "prisma studio --port 5556",
+    "ppush": "npx prisma db push",
+    "pg": "npx prisma generate",
+    "pm": "npx prisma migrate dev --name note-entity --create-only && yarn prisma generate",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"

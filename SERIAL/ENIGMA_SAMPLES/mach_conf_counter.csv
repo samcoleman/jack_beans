@@ -1,7 +1,4 @@
-
-25/02/2023  14:28:35
-
-counter;calculated;% reached;Limit value;value;limiting value;Hint;Type;
+;counter;calculated;% reached;Limit value;value;limiting value;Hint;Type;
 Total Brewings;16717;;;16717;;5110sub01;1;
 -Brewings without pump;0;;;0;;5110sub02;1;
 -Brewings with pump;0;;;0;;5110sub03;1;

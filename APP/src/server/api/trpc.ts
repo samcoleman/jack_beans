@@ -112,6 +112,19 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
+const maskScope = t.middleware( async ({ ctx, next }) => {
+
+    const result = await next({
+      ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    });
+    ctx.prisma.
+
+    return result
+  });
+
 
 /**
  * Protected (authed) procedure

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "pro": "node proxy.js",
+    "proxy": "node proxy.js",
     "d": "next dev",
     "p": "prisma studio --port 5556",
     "ppush": "npx prisma db push",

@@ -30,9 +30,7 @@ export interface SerialContextValue {
     connect(): Promise<boolean>;
     retry(): void;
     disconnect(): void;
-    tx(bytes: Uint8Array): void;
-    rx(): Promise<Uint8Array>;
-    subscribe(callback: SerialMessageCallback): () => void;
+    command(bytes: Uint8Array): Promise<Uint8Array>;
 }
 export const SerialContext = createContext<SerialContextValue>({
     canUseSerial: false,
@@ -41,14 +39,11 @@ export const SerialContext = createContext<SerialContextValue>({
     retry:() => {},
     disconnect: () => {},
     portState: "closed",
-    tx: () => {},
-    rx: () => Promise.resolve(new Uint8Array()),
-    subscribe: () => () => {},
+    command: () => Promise.resolve(new Uint8Array()),
 });
 
 export const useSerial = () => useContext(SerialContext);
 
-interface SerialProviderProps {}
 const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
 
     const readBuffer = useRef<SerialMessage>({value: new Uint8Array(), done: false, timestamp: 0});
@@ -62,27 +57,6 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     const portRef = useRef<SerialPort | null>(null);
     const readerRef = useRef<ReadableStreamDefaultReader | null>(null);
     const readerClosedPromiseRef = useRef<Promise<void>>(Promise.resolve());
-
-    const currentSubscriberIdRef = useRef<number>(0);
-    const subscribersRef = useRef<Map<number, SerialMessageCallback>>(new Map());
-
-
-    
-    /**
-     * Subscribes a callback function to the message event.
-     *
-     * @param callback the callback function to subscribe
-     * @returns an unsubscribe function
-     */
-    const subscribe = (callback: SerialMessageCallback) => {
-        const id = currentSubscriberIdRef.current;
-        subscribersRef.current.set(id, callback);
-        currentSubscriberIdRef.current++;
-    
-        return () => {
-          subscribersRef.current.delete(id);
-        };
-    };
 
     const tx = async (bytes: Uint8Array) => {
         //Clear Read Line
@@ -106,7 +80,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
 
     const rx = async () => {
         // Wait until packet has been received
-        // FIXME: This souhld have a max timeout and throw an error
+        // FIXME: This should have a max timeout and throw an error
         // Feels a bit hacky anyway, better method?
         while(!readBuffer.current.done){
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -115,6 +89,11 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
 
         // Return the received data without start bit and length
         return readBuffer.current.value.slice(3, readBuffer.current.value.length)
+    }
+
+    const command = async (bytes: Uint8Array) => {
+        tx(bytes);
+        return await rx();
     }
 
     /**
@@ -138,12 +117,11 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
             readBuffer.current = {value: new Uint8Array([...readBuffer.current.value, ...value]), done: false, timestamp: Date.now()}
            
             // Message must be at least 3 bytes long
-            if (readBuffer.current.value.length > 2){
-                // LSB + MSB + 1 byte (start bit) + 2 bytes for length + ( 1 byte for array non 0 index ) 
+            if (readBuffer.current.value.length >= 3){
+                // LSB + MSB + 3 Bytes (Start bye + length) + 1 byte for array non 0 index
                 const length = (readBuffer.current.value[1]! + 256 * readBuffer.current.value[2]!) + 4
                 if (readBuffer.current.value.length == length){
                     readBuffer.current.done = true
-                    //console.log(readBuffer.current)
                 }
             }
         }  
@@ -256,7 +234,6 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         
         if (portState === "open" && port) {
             // When the port is open, read until closed
-            
             const aborted = { current: false };
             readerRef.current?.cancel();
             readerClosedPromiseRef.current.then(() => {
@@ -304,9 +281,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         value={{
             canUseSerial,
             hasTriedAutoconnect,
-            tx,
-            rx,
-            subscribe,
+            command,
             portState,
             connect: manualConnectToPort,
             retry,

@@ -7,7 +7,7 @@ import {
     useState,
   } from "react";
 
-import { cm_serial_info } from "../utils/const";
+import { cm_serial_info } from "../utils/serial";
   
 // RESOURCES:
 // https://web.dev/serial/
@@ -27,41 +27,36 @@ export interface SerialContextValue {
     canUseSerial: boolean;
     hasTriedAutoconnect: boolean;
     portState: PortState;
-    connect(): Promise<boolean>;
-    retry(): void;
+    authConnect(): Promise<boolean>;
     disconnect(): void;
     command(bytes: Uint8Array): Promise<Uint8Array>;
 }
 export const SerialContext = createContext<SerialContextValue>({
     canUseSerial: false,
     hasTriedAutoconnect: false,
-    connect: () => Promise.resolve(false),
-    retry:() => {},
+    authConnect: () => Promise.resolve(false),
     disconnect: () => {},
-    portState: "closed",
     command: () => Promise.resolve(new Uint8Array()),
+    portState: "closed",
 });
 
 export const useSerial = () => useContext(SerialContext);
 
+interface SerialProviderProps {}
 const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
 
-    const readBuffer = useRef<SerialMessage>({value: new Uint8Array(), done: false, timestamp: 0});
+    const readBuffer = useRef<Uint8Array>(new Uint8Array());
 
     const [canUseSerial, setCanUseSerial] = useState(false);
-
     const [portState, setPortState] = useState<PortState>("closed");
     const [hasTriedAutoconnect, setHasTriedAutoconnect] = useState(false);
     const [hasManuallyDisconnected, setHasManuallyDisconnected] = useState(false);
 
-    const portRef = useRef<SerialPort | null>(null);
-    const readerRef = useRef<ReadableStreamDefaultReader | null>(null);
-    const readerClosedPromiseRef = useRef<Promise<void>>(Promise.resolve());
+    const portRef      = useRef<SerialPort | null>(null);
+    const readerRef    = useRef<ReadableStreamDefaultReader | null>(null);
+    const readerClosed = useRef<Promise<void>>(Promise.resolve());
 
     const tx = async (bytes: Uint8Array) => {
-        //Clear Read Line
-        readBuffer.current = {value: new Uint8Array(), done: false, timestamp: 0}
-
         const LSB = (bytes.length - 1) % 256
         const MSB = (bytes.length - 1 - LSB) / 256
 
@@ -78,22 +73,59 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         
     }
 
-    const rx = async () => {
-        // Wait until packet has been received
-        // FIXME: This should have a max timeout and throw an error
-        // Feels a bit hacky anyway, better method?
-        while(!readBuffer.current.done){
-            await new Promise(resolve => setTimeout(resolve, 100));
+    const rx = async (timeout: number = 5000) => {
+        function check_readbuffer_complete() {
+            // Message must be at least 3 bytes long
+            if (readBuffer.current.length < 3){
+                return false
+            }
+            // LSB + MSB + 3 Bytes (Start bye + length) + 1 byte for array non 0 index
+            const length = (readBuffer.current[1]! + 256 * readBuffer.current[2]!) + 4
+            if (readBuffer.current.length == length){
+                return true
+            }
+            return false
         }
-        console.log(`RX: ${readBuffer.current.value.toString()}`);
+
+        // Wait until all packets have been received or timeout
+        const retry = 100 //ms
+        let   count = 0
+        while(!check_readbuffer_complete()){
+            await new Promise(resolve => setTimeout(resolve, retry));
+
+            count++;
+            if (count === timeout/retry) {
+                console.log("RX Timeout")
+                return new Uint8Array()
+            }
+        }
 
         // Return the received data without start bit and length
-        return readBuffer.current.value.slice(3, readBuffer.current.value.length)
+        return readBuffer.current.slice(3, readBuffer.current.length)
     }
 
     const command = async (bytes: Uint8Array) => {
+
+        // Wait until port is open or timeout
+        const retry   = 100 //ms
+        const timeout = 5000 //ms
+        let   count   = 0
+        while (!portRef.current || portState !== "open") {
+            await new Promise(resolve => setTimeout(resolve, retry));
+
+            count++
+            if (count === timeout/retry) {
+                console.log("TX Timeout")
+                return new Uint8Array()
+            }   
+        }
+        
+        //Clear Read Line - annoying you cant clear original
+        readBuffer.current = new Uint8Array()
         tx(bytes);
-        return await rx();
+        const res = await rx();
+        console.log(`TX:\n${bytes.toString()} \nRX:\n${res?.toString()}`);
+        return res;
     }
 
     /**
@@ -114,16 +146,8 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
             }
 
             // Timestamp of last byte received (simpler)
-            readBuffer.current = {value: new Uint8Array([...readBuffer.current.value, ...value]), done: false, timestamp: Date.now()}
+            readBuffer.current = new Uint8Array([...readBuffer.current, ...value])
            
-            // Message must be at least 3 bytes long
-            if (readBuffer.current.value.length >= 3){
-                // LSB + MSB + 3 Bytes (Start bye + length) + 1 byte for array non 0 index
-                const length = (readBuffer.current.value[1]! + 256 * readBuffer.current.value[2]!) + 4
-                if (readBuffer.current.value.length == length){
-                    readBuffer.current.done = true
-                }
-            }
         }  
         } catch (error) {
             console.error(error);
@@ -150,7 +174,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const manualConnectToPort = async () => {
+    const authConnect = async () => {
         if (canUseSerial && portState === "closed") {
         setPortState("opening");
         const filters = [cm_serial_info];
@@ -166,7 +190,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         return false;
     };
 
-    const autoConnectToPort = async () => {
+    const autoConnect = async () => {
         if (canUseSerial && portState === "closed") {
         setPortState("opening");
         const availablePorts = await navigator.serial.getPorts();
@@ -187,7 +211,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         return false;
     };
 
-    const manualDisconnectFromPort = async () => {
+    const closePort = async () => {
         if (canUseSerial && portState === "open") {
         const port = portRef.current;
         if (port) {
@@ -195,7 +219,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
 
             // Cancel any reading from port
             readerRef.current?.cancel();
-            await readerClosedPromiseRef.current;
+            await readerClosed.current;
             readerRef.current = null;
 
             // Close and nullify the port
@@ -211,22 +235,24 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     };
 
     /**
-     * Event handler for when the port is disconnected unexpectedly.
+     * Event handler for when the port is connected & disconnected unexpectedly.
      */
+    const onPortConnect = async () => {
+        setHasTriedAutoconnect(false);
+    }
+
     const onPortDisconnect = async () => {
         // Wait for the reader to finish it's current loop
-        await readerClosedPromiseRef.current;
+        await readerClosed.current;
         // Update state
         readerRef.current = null;
-        readerClosedPromiseRef.current = Promise.resolve();
+        readerClosed.current = Promise.resolve();
         portRef.current = null;
         setHasTriedAutoconnect(false);
         setPortState("closed");
     };
 
-    const onPortConnect = async () => {
-        retry();
-    }
+    
 
     // Handles attaching the reader and disconnect listener when the port is open
     useEffect(() => {
@@ -234,12 +260,13 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         
         if (portState === "open" && port) {
             // When the port is open, read until closed
+            
             const aborted = { current: false };
             readerRef.current?.cancel();
-            readerClosedPromiseRef.current.then(() => {
+            readerClosed.current.then(() => {
                 if (!aborted.current) {
                 readerRef.current = null;
-                readerClosedPromiseRef.current = readUntilClosed(port);
+                readerClosed.current = readUntilClosed(port);
                 }
             });
         }
@@ -257,10 +284,6 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [portState]);
 
-    const retry = () => {
-        setHasTriedAutoconnect(false);
-    }
-
     // Tries to auto-connect to a port, if possible
     useEffect(() => {
         setCanUseSerial("serial" in navigator)
@@ -271,7 +294,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         portState === "closed"
         ) {
         console.log("Trying to autoconnect to port")
-        autoConnectToPort();
+        autoConnect();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [canUseSerial, hasManuallyDisconnected, hasTriedAutoconnect, portState]);
@@ -283,9 +306,8 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
             hasTriedAutoconnect,
             command,
             portState,
-            connect: manualConnectToPort,
-            retry,
-            disconnect: manualDisconnectFromPort,
+            authConnect: authConnect,
+            disconnect: closePort,
         }}
         >
             {children}

@@ -12,6 +12,10 @@ const adminLinks : Link[] = [
     {
       name: "Serial",
       path: "/admin/serial",
+    },
+    {
+        name: "Errors",
+        path: "/admin/errors",
     }
 ];
 

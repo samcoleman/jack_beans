@@ -4,20 +4,23 @@ import Head from "next/head";
 import {AdminNavBar} from "../../components/NavBar";
 import { api } from "../../utils/api";
 import { useSession } from "next-auth/react";
+import { useSerial } from "../../components/ProviderSerial";
+import { useState } from "react";
 
 
 const Serial: NextPage = () => {
     const { data: session } = useSession();
 
-    const logger = api.serial.log.useMutation()
+    const { command } = useSerial()
+    const [input, setInput ] = useState("");
 
-    const getScopes = async () => {
-        await logger.mutateAsync({
-            fn: "test",
-            tx: new Uint8Array([1,2,3]),
-            rx: new Uint8Array([1,2,3]),
-            kioskId: localStorage.getItem("kiosk_id")!,
-        })
+    const onChange = (e: any) => {
+        setInput(e.target.value)
+    }
+
+    const onSubmit = async (e: any) => {
+        const bytes = Uint8Array.from(Buffer.from(input, 'hex'));
+        const res = await command(bytes)
     }
 
   return (
@@ -30,12 +33,11 @@ const Serial: NextPage = () => {
     <AdminNavBar />
     <main className="flex min-h-screen flex-col items-center justify-center bg-[#232020]">
 
-        <button className="bg-[#232020] text-white font-bold py-2 px-4 rounded" onClick={getScopes}>
-            Get Scopes
-        </button>
-        <p>
-            {session?.user?.scopeIds}
-        </p>
+            <div className="container flex justify-center gap-4">
+                <input  className="flex max-w-xs gap-4 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20 min-w-[50%]"  type="text" name="name" onChange={onChange}/>
+                <input className="flex max-w-xs min-w-fit gap-4 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20"  type="submit" value="Send" onClick={onSubmit}/>
+            </div>
+
         <footer className="container flex justify-center flex-row-reverse">   
         </footer>
     </main>

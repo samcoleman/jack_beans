@@ -16,6 +16,7 @@ const serial_buttons = {
 
 type button = keyof typeof serial_buttons
 export const press_button = async (command: (bytes: Uint8Array) => Promise<Uint8Array>,  button: button) => {
+    console.log("Press button: ", button)
     const res = await command(serial_buttons[button])
 
     let handshake = new Uint8Array([...res, 0])
@@ -24,21 +25,37 @@ export const press_button = async (command: (bytes: Uint8Array) => Promise<Uint8
 
     const res_hand = await command(handshake)
 
-    if (res_hand === res) {
+    if (res_hand.toString() === res.toString()) {
         console.log("Handshake success")
     }else{
-        console.log("Handshake failed")
+        console.log("Handshake fail")
     }
 }
 
-type error = {
+export type mach_error = {
     number: number,
     fault:  number,
+    desc: string,
     flag: number,
-    datetime: number,
+    datetime: Date,
     count: number
 }
 
+const error_lookup : { [key: number]: string } = {
+    1:   'F26 Current error',
+    61:  '9061 Standby event',
+    62:  '9062 Reset event!',
+    68:  'Grouts container withdrawn',
+    72:  'Manual input open',
+    76:	 'No water pressure',
+    241: 'F161 Error flowmeter occurs during brewing cycle',
+    243: 'F163 Error flowmeter occurs during check of flow rate',
+    245: 'F165 Error flowmeter occurs during mixer dosing',
+    246: 'F166 Error flowmeter occurs during steam boiler supply',
+    248: 'F9248 error electrode detection',
+    268: '9268 power supply  notifies to cpu mains voltage too low',
+    271: 'F9271 oscillation pump swiches to coast down operation mode',
+}
 
 
 export const get_errors = async (command: (bytes: Uint8Array) => Promise<Uint8Array>, limit: number = 100) => {
@@ -51,26 +68,45 @@ export const get_errors = async (command: (bytes: Uint8Array) => Promise<Uint8Ar
     }
     
     function get_error(res: Uint8Array) {
-        return { number: 0, fault:  0, flag: 0, datetime: Date.now(), count: 0} as error
+        // What a dumb schema
+        const year   = new Date().getFullYear()
+        const month  = convert_littleendian(res.slice(34, 36))
+        const day    = convert_littleendian(res.slice(32, 34))
+        const hour   = convert_littleendian(res.slice(30, 32))
+        const minute = convert_littleendian(res.slice(28, 30))
+        const second = convert_littleendian(res.slice(26, 28))
+
+        const number = convert_littleendian(res.slice(14, 16))
+        const fault  = convert_littleendian(res.slice(22, 24))
+        const flag   = convert_littleendian(res.slice(24, 26))
+        const count  = convert_littleendian(res.slice(36, 38))
+
+        const e : mach_error = { 
+            number, fault, flag, count, 
+            desc: fault in error_lookup ? error_lookup[fault]! : "Unknown Error Code",
+            datetime: new Date(year, month, day, hour, minute, second),  
+        } 
+        
+        return e
     }
 
-    const res_len = await command(new Uint8Array([3, 0, 1, 0, 0, 0, 1, 0, 134, 82, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 222]))
-    
-    let len = convert_littleendian(res_len.slice(26, 28))
-    if (len > limit) {
-        len = limit
-    }
-
-    const errors: error[] = []
-    for (let i = 0; i < len; i++) {
+    const errors: mach_error[] = []
+    for (let i = 0; i < limit; i++) {
         // [3, 0, 1, 0, 0, 0, 1, 0, 1, 77, 0, 0, 1, 0, 1,   0, 0, 0, 11, 0, 0, 0, 96]
         // [3, 0, 1, 0, 0, 0, 1, 0, 1, 77, 0, 0, 1, 0, 2,   0, 0, 0, 11, 0, 0, 0, 97]
         // [3, 0, 1, 0, 0, 0, 1, 0, 1, 77, 0, 0, 1, 0, 161, 0, 0, 0, 11, 0, 0, 0, 0]
         // [3, 0, 1, 0, 0, 0, 1, 0, 1, 77, 0, 0, 1, 0, 199, 0, 0, 0, 11, 0, 0, 0, 38]
-        const res = await command(new Uint8Array([3, 0, 1, 0, 0, 0, 1, 0, 1, 77, 0, 0, 1, 0, i%256, i/256, 0, 0, 11, 0, 0, 0, (96+i)%256 ]))
+        const res = await command(new Uint8Array([3, 0, 1, 0, 0, 0, 1, 0, 1, 77, 0, 0, 1, 0, (1+i)%256, 0, 0, 0, 11, 0, 0, 0, (96+i)%256]))
+        const error = get_error(res)
+
+        // This signals the end of the error list
+        if (error.fault === 118) {
+            break
+        }
+
         errors.push(get_error(res))
     }
-
+    return errors
 }
 
 export const get_config = async (command: (bytes: Uint8Array) => Promise<Uint8Array>) => {

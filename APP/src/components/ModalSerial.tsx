@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDev } from "./ProviderDev";
-import { cm_serial_info } from "../utils/const";
+import { cm_serial_info } from "../utils/serial";
 import { useSerial } from "./ProviderSerial";
 
 
 export const ModalSerial : React.FC = () => {
     const dev = useDev();
 
-    const { canUseSerial, retry, connect } = useSerial();
+    const { canUseSerial, retry, authConnect: connect } = useSerial();
     return(
         <>
         <div

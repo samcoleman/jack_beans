@@ -6,17 +6,13 @@ generator client {
 }
 
 datasource db {
-    provider = "postgresql"
+    provider = "mysql"
     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
-}
-
-enum SerialDirection {
-    TX
-    RX
+    relationMode = "prisma"
 }
 
 model Kiosk {
@@ -25,6 +21,8 @@ model Kiosk {
     scope           Scope?      @relation(fields:[scopeId], references:[id], onDelete: NoAction)
     scopeId         String?
     serialLogs      SerialLog[]
+
+    @@index([scopeId])
 }
 
 model SerialLog {
@@ -36,23 +34,20 @@ model SerialLog {
     kioskId         String
     createdAt       DateTime    @default(now())
     updatedAt       DateTime    @updatedAt
+
+    @@index([kioskId])
 }
 
 model Scope{
     id             String      @id @default(cuid())
     name           String
     rootId         String?
-    root           Scope?      @relation("RootChildren", fields:[rootId], references: [id])
+    root           Scope?      @relation("RootChildren", fields:[rootId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     children       Scope[]     @relation("RootChildren")
-
     kiosks         Kiosk[]
     users          User[]
-}
 
-model Example {
-    id              String   @id @default(cuid())
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+    @@index([rootId])
 }
 
 // Necessary for Next auth
@@ -72,6 +67,7 @@ model Account {
     user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -80,6 +76,8 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {
@@ -92,6 +90,8 @@ model User {
     emailVerified DateTime?
     accounts      Account[]
     sessions      Session[]
+
+    @@index([scopeId])
 }
 
 model VerificationToken {

@@ -16,6 +16,7 @@ export default withAuth({
             // and the whitelisted anonymousRoutes above.
             return Boolean(
                 req.cookies.get('next-auth.session-token') || // check if there's a token
+                req.cookies.get('__Secure-next-auth.session-token') || // check if there's a token valid
                     pathname.startsWith('/_next') || // exclude Next.js internals
                     pathname.startsWith('/api') || //  exclude all API routes
                     pathname.startsWith('/static') || // exclude static files

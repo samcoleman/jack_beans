@@ -11,6 +11,7 @@
     "prisma-push": "dotenv -e .env.development -- npx prisma db push",
     "prisma-gen":  "dotenv -e .env.development -- npx prisma generate",
     "prisma-migrate": "dotenv -e .env.development -- npx prisma migrate dev --name note-entity --create-only && yarn prisma generate",
+    "prisma:generate": "prisma generate",
     "lint": "next lint",
     "start": "next start"
   },

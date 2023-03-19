@@ -25,9 +25,6 @@ type KioskIdValid = {
 }
 
 const Logs: NextPage = () => {
-    const [assigned, setAssigned] = useState<KioskIdAssignment>({state: false, kiosk_id: "", error: ""});
-    const [valid, setValid]       = useState<KioskIdValid>({state: false, kiosk_data: {id: "", address: "", scopeId: null}, error: ""});
-
     const { data : session } = useSession();
     const { data : logs }  = api.serial.getLogs.useQuery(
         undefined, 
@@ -54,10 +51,10 @@ const Logs: NextPage = () => {
                 <thead>
                     <tr className="border-b-2">
                     <th>Date</th>
-                    <th>fn</th>
-                    <th>kiosk</th>
-                    <th>tx</th>
-                    <th>rx</th>
+                    <th>Kiosk</th>
+                    <th>TX</th>
+                    <th>RX</th>
+                    <th>Error</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,10 +62,10 @@ const Logs: NextPage = () => {
                     return (
                         <tr key={index} className="border-b-2">
                         <td>{log.createdAt.toDateString()}</td>
-                        <td>{log.fn}</td>
                         <td>{log.kioskId}</td>
                         <td>{log.tx}</td>
                         <td>{log.rx}</td>
+                        <td>{log.error}</td>
                         </tr>
                     );
                     })}

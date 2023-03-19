@@ -9,12 +9,8 @@ import { useSerial } from "../../components/ProviderSerial";
 
 
 const Errors: NextPage = () => {
-
-    const { data : session } = useSession();
-
     const [errors, setErrors] = useState<mach_error[]>([]);
-
-    const { portState, command } = useSerial();
+    const { command } = useSerial();
 
     return (
     <>

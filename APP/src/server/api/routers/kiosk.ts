@@ -1,8 +1,6 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
-import { contextProps } from "@trpc/react-query/shared";
-import middleware from "../../../middleware";
 
 export const kioskRouter = createTRPCRouter({
   getAll: protectedProcedure
@@ -14,7 +12,7 @@ export const kioskRouter = createTRPCRouter({
     });
   }),
 
-  checkValid: protectedProcedure
+  checkValid: publicProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ctx, input}) => {
         const kiosk = await ctx.prisma.kiosk.findFirst({where: {id: input.id}});

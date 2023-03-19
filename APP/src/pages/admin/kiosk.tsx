@@ -6,6 +6,7 @@ import { api } from "../../utils/api";
 import {AdminNavBar} from "../../components/NavBar";
 
 import { useAppDispatch, useAppState } from "../../components/ProviderAppState";
+import { Kiosk } from "@prisma/client";
 
 
 const Kiosk: NextPage = () => {
@@ -130,7 +131,7 @@ const Kiosk: NextPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {kiosks?.map((k, index) => {
+                    {kiosks?.map((k : Kiosk, index) => {
                     return (
                         <tr key={index} className="border-b-2">
                         <td>{k.id}</td>

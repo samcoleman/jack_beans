@@ -83,7 +83,8 @@ const ProviderAppState = ({ children } : { children: React.ReactNode }) => {
     }
 
         void checkKioskId()
-    }, [state.kiosk.id, validate])
+    }, [state.kiosk.id])
+    //}   , [])
 
 	return (
 		<AppStateContext.Provider value={state}>

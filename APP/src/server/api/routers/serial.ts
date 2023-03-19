@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
-import { contextProps } from "@trpc/react-query/shared";
 
 export const serialRouter = createTRPCRouter({
     // return logs user has scope to
@@ -15,7 +14,7 @@ export const serialRouter = createTRPCRouter({
     }*/);
   }),
 
-  log: protectedProcedure
+  log: publicProcedure
     .input(z.object({ 
         tx: z.instanceof(Uint8Array).optional(),
         rx: z.instanceof(Uint8Array).optional(),
@@ -23,9 +22,6 @@ export const serialRouter = createTRPCRouter({
         kioskId: z.string().cuid()
     }))
     .mutation(async ({ctx, input}) => {
-    
-
-
         const res = await ctx.prisma.serialLog.create({
             data: {
                 kiosk: {

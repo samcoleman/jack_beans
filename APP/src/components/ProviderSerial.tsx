@@ -102,14 +102,17 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         return readBuffer.slice(3, readBuffer.length)
     }
 
-    const command = async (bytes: Uint8Array, timeout: number = 5000) => {
-        // Wait until port is open or timeout
-        const start = +new Date;
+    const command = async (bytes: Uint8Array, timeout: number = 10000) => {
+        // Wait for timeout seconds 
+        const interval = 100;
+        let   time = 0;
         while (!portRef.current || portState.current !== "OPEN") {
-            if ((+new Date - start) > timeout) {
+            await new Promise(resolve => setTimeout(resolve, interval));
+            if (time > timeout ) {
                 console.log("TX Timout")
                 return new Uint8Array()
             } 
+            time += interval;
         }
         
         await tx(bytes);
@@ -236,6 +239,8 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [canUseSerial, hasManuallyDisconnected, hasTriedAutoconnect, portState]);
 
+
+    // If cannot autoconnect over 10seconds then set connected to false
     useEffect(() => {
         async function checkPortState(lastPortState: PortState, depth: number) {
             if (portState.current === "OPEN") {

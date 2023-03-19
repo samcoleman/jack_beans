@@ -19,13 +19,17 @@ export const press_button = async (command: (bytes: Uint8Array) => Promise<Uint8
     console.log("Press button: ", button)
     const res = await command(serial_buttons[button])
 
+    if (res.length === 0) {
+        return
+    }
+
     let handshake = new Uint8Array([...res, 0])
     handshake[handshake.length-1] = res[res.length-1]!
     handshake[handshake.length-2] = 0
 
     const res_hand = await command(handshake)
 
-    if (res_hand.toString() === res.toString()) {
+    if (res_hand.toString() === res.toString() && res_hand.toString() !== "") {
         console.log("Handshake success")
     }else{
         console.log("Handshake fail")

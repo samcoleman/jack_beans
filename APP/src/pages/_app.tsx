@@ -1,28 +1,25 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider as ProviderSession } from "next-auth/react";
 
 import { api } from "../utils/api";
 
 import "../styles/globals.css";
-import ProviderDev from "../components/ProviderDev";
+import ProviderAppState from "../components/ProviderAppState";
 import ProviderSerial from "../components/ProviderSerial";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-
-
-
   return (
-    <SessionProvider session={session}>
-        <ProviderDev>
+    <ProviderSession session={session}>
+        <ProviderAppState>
             <ProviderSerial>
                 <Component {...pageProps} />
             </ProviderSerial>
-        </ProviderDev> 
-    </SessionProvider>
+        </ProviderAppState> 
+    </ProviderSession>
   );
 };
 

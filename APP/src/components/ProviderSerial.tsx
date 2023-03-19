@@ -8,6 +8,8 @@ import {
   } from "react";
 
 import { cm_serial_info } from "../utils/serial";
+import { useAppState } from "./ProviderAppState";
+import { api } from "../utils/api";
   
 // RESOURCES:
 // https://web.dev/serial/
@@ -33,6 +35,9 @@ export const useSerial = () => useContext(SerialContext);
 
 interface SerialProviderProps {}
 const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
+
+    const { kiosk } = useAppState();
+    const log = api.serial.log.useMutation();
 
     const [canUseSerial, setCanUseSerial] = useState(false);
     const [connected, setConnected] = useState<boolean>(true);
@@ -60,7 +65,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         
     }
 
-    const rx = async (timeout: number = 5000) => {
+    const rx = async (tx: Uint8Array, timeout: number = 5000) => {
         function check_readbuffer_complete(readBuffer : Uint8Array) {
             // Message must be at least 3 bytes long
             if (readBuffer.length < 3){
@@ -86,6 +91,14 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
                 
                 if (done || (+new Date - start) > timeout) {
                     console.log("RX Timout")
+                    if (kiosk.obj && kiosk.obj.logSerial) {
+                        log.mutate({
+                            kioskId: kiosk.obj.id,
+                            tx,
+                            rx: readBuffer,
+                            error: "RX_TIMEOUT",
+                        })
+                    }
                     break;
                 }
                 // Timestamp of last byte received (simpler)
@@ -102,6 +115,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         return readBuffer.slice(3, readBuffer.length)
     }
 
+    // TODO: Make logging less ugly -> Need to throw errors properly
     const command = async (bytes: Uint8Array, timeout: number = 10000) => {
         // Wait for timeout seconds 
         const interval = 100;
@@ -110,13 +124,28 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
             await new Promise(resolve => setTimeout(resolve, interval));
             if (time > timeout ) {
                 console.log("TX Timout")
+                if (kiosk.obj && kiosk.obj.logSerial) {
+                    log.mutate({
+                        kioskId: kiosk.obj.id,
+                        tx: bytes,
+                        error: "TX_TIMEOUT",
+                    })
+                }
                 return new Uint8Array()
             } 
             time += interval;
         }
         
         await tx(bytes);
-        const res = await rx(timeout);
+        const res = await rx(bytes, timeout);
+
+        if (kiosk.obj && kiosk.obj.logSerial) {
+            log.mutate({
+                kioskId: kiosk.obj.id,
+                tx: bytes,
+                rx: res,
+            })
+        }
         console.log(`TX:\n${bytes.toString()} \nRX:\n${res?.toString()}`);
         return res;
     }
@@ -249,7 +278,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
                 return
             }
 
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 4000));
             if (portState.current === "CLOSED" && lastPortState !== "CLOSED"){
                 setConnected(false)
                 return

@@ -17,20 +17,23 @@ export const serialRouter = createTRPCRouter({
 
   log: protectedProcedure
     .input(z.object({ 
-        fn: z.string(),
-        tx: z.instanceof(Uint8Array),
-        rx: z.instanceof(Uint8Array),
+        tx: z.instanceof(Uint8Array).optional(),
+        rx: z.instanceof(Uint8Array).optional(),
+        error: z.string().optional(),
         kioskId: z.string().cuid()
     }))
     .mutation(async ({ctx, input}) => {
+    
+
+
         const res = await ctx.prisma.serialLog.create({
             data: {
                 kiosk: {
                     connect: {id: input.kioskId}
                 },
-                fn: input.fn,
-                tx: Buffer.from(input.tx),
-                rx: Buffer.from(input.rx),
+                tx: input.tx ? Buffer.from(input.tx) : undefined,
+                rx: input.rx ? Buffer.from(input.rx) : undefined,
+                error: input.error
             }
         });
     })

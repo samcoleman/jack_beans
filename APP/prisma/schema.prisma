@@ -18,6 +18,7 @@ datasource db {
 model Kiosk {
     id              String      @id @default(cuid())
     address         String
+    logSerial       Boolean     @default(false)
     scope           Scope?      @relation(fields:[scopeId], references:[id], onDelete: NoAction)
     scopeId         String?
     serialLogs      SerialLog[]
@@ -27,9 +28,9 @@ model Kiosk {
 
 model SerialLog {
     id              String      @id @default(cuid())
-    fn              String
-    tx              Bytes
-    rx              Bytes
+    tx              Bytes?
+    rx              Bytes?
+    error           String?
     kiosk           Kiosk       @relation(fields:[kioskId], references:[id], onDelete: NoAction)
     kioskId         String
     createdAt       DateTime    @default(now())

@@ -5,26 +5,13 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "../../utils/api";
 import Link from "next/link";
 import {AdminNavBar} from "../../components/NavBar";
-import { useEffect, useState } from "react";
-import { json } from "stream/consumers";
-import { Kiosk } from "@prisma/client";
 
+import { useAppDispatch, useAppState } from "../../components/ProviderAppState";
 
-type KioskIdAssignment = {
-    state: boolean;
-    kiosk_id: string;
-    error: string;
-}
-
-type KioskIdValid = {
-    state: boolean;
-    kiosk_data: Kiosk;
-    error: string;
-}
 
 const Kiosk: NextPage = () => {
-    const [assigned, setAssigned] = useState<KioskIdAssignment>({state: false, kiosk_id: "", error: ""});
-    const [valid, setValid]       = useState<KioskIdValid>({state: false, kiosk_data: {id: "", address: "", scopeId: null}, error: ""});
+    const { kiosk } = useAppState();
+    const dispatch = useAppDispatch();
 
     const { data : session } = useSession();
     const { data : kiosks }  = api.kiosk.getAll.useQuery(
@@ -32,57 +19,16 @@ const Kiosk: NextPage = () => {
         {enabled: session?.user !== undefined}
     );
 
-    const validate = api.kiosk.checkValid.useMutation()
 
-    // Probably should be global state? Not local
     const assignKioskId = (kiosk_id: string) => {
         localStorage.setItem("kiosk_id", kiosk_id);
-        checkKioskId();  
+        dispatch({kiosk: {id: kiosk_id, valid: "UNKNOWN", obj: undefined}})
     }
 
     const unassignKioskId = () => {
-        localStorage.removeItem("kiosk_id");
-        checkKioskId();  
+        localStorage.removeItem("kiosk_id"); 
+        dispatch({kiosk: {id: null, valid: "UNKNOWN", obj: undefined}})
     }
-
-    async function checkKioskId(){
-        const checkKioskIdAssignment = () => {
-            const kiosk_id = localStorage.getItem("kiosk_id");
-    
-            if (kiosk_id) {
-                return {state: true, kiosk_id: kiosk_id, error: ""} as KioskIdAssignment;
-            }else{
-                return {state: false, kiosk_id: "", error: "Kiosk ID not assigned"} as KioskIdAssignment;
-            }
-        }
-    
-        const checkKioskIdValid = async (kioskIdAssignment : KioskIdAssignment) => {  
-            // Check if kiosk id is assigned
-            if (!kioskIdAssignment.state){
-                return {state: false, kiosk_data: {id: "", address: ""}, error: "Cannot check if Kiosk ID is valid if not assigned"} as KioskIdValid;
-            }
-            // Check if kiosk id is valid
-            else{
-                const kiosk = await validate.mutateAsync({id: kioskIdAssignment.kiosk_id});
-                if (kiosk){
-                    return {state: true, kiosk_data: kiosk, error: ""} as KioskIdValid;
-                }else{
-                    return {state: false, kiosk_data: {id: kioskIdAssignment.kiosk_id, address: ""}, error: "Kiosk ID not valid"} as KioskIdValid;
-                }
-            }
-        }
-        const kioskIdAssignment = checkKioskIdAssignment();
-        setAssigned(kioskIdAssignment);
-        const kioskIdValid = await checkKioskIdValid(kioskIdAssignment);
-        setValid(kioskIdValid);
-    } 
-
-    
-
-
-    useEffect(() => {
-        checkKioskId();  
-    }, []);
 
     return (
     <>
@@ -96,30 +42,31 @@ const Kiosk: NextPage = () => {
         <div className="container flex flex-col items-center gap-12 py-12">
             <div className="flex flex-row justify-center min-w-full gap-12">
                 <div className="flex flex-col flex-1 w-full gap-4 rounded-xl bg-white/20 p-6 text-white">
-                    <div className="flex flex-row items-center font-extrabold gap-4">
+                    <div className="flex flex-row items-center gap-4">
                         {
-                            assigned.state ? 
-                            <div className="flex bg-green-500 aspect-square h-10 rounded-full items-center justify-center">
+                            kiosk.id ? 
+                            <div className="flex font-extrabold bg-green-500 aspect-square h-10 rounded-full items-center justify-center">
                                 ✓
                             </div>
                             :
-                            <div className="flex bg-red-500 aspect-square h-10 rounded-full items-center justify-center">
+                            <div className="flex font-extrabold bg-red-500 aspect-square h-10 rounded-full items-center justify-center">
                                 X
                             </div>
                         }
-                        <h1 className="text-2xl font-extrabold tracking-tight">
+                        <h1 className="text-2xl font-extrabold tracking-wide">
                             Kiosk ID Assigned
                         </h1>
+                        <div className="flex-1"/>
+                        <p className="text-ml  tracking-tight">
+                            {kiosk.id ? kiosk.id : null}
+                        </p>
                     </div>
-                    {
-                        assigned.state ? null : <p>{assigned.error}</p>
-                    }
                 </div>
                 <div className="flex flex-col flex-1 gap-4 rounded-xl bg-white/20 p-6 text-white">
                     <div className="flex flex-row items-center font-extrabold gap-4">
                         {
-                            validate.isSuccess ?
-                                valid.state ? 
+                            kiosk.valid !== "UNKNOWN" ?
+                                kiosk.valid ? 
                                 <div className="flex bg-green-500 aspect-square h-10 rounded-full items-center justify-center">
                                     ✓
                                 </div>
@@ -136,16 +83,13 @@ const Kiosk: NextPage = () => {
                             Kiosk ID Valid
                         </h1>
                     </div>
-                    {
-                        valid.state ||validate.isLoading ? null : <p>{valid.error}</p>
-                    }
                 </div>
                 
             </div>
             <div className="flex justify-start flex-1 min-w-full flex-col rounded-xl bg-white/20 p-6 gap-4 text-white">
                 <h3 className="text-2xl font-bold text-left">Kiosk Management</h3>
                 {
-                    assigned.state ? 
+                    kiosk.obj ? 
                     <>
                     <h1 className="text-xl font-bold">Current</h1>
                     <table className="table-fixed text-left w-full">
@@ -158,8 +102,8 @@ const Kiosk: NextPage = () => {
                     </thead>
                     <tbody>
                         <tr className="border-b-2">
-                        <td>{assigned.kiosk_id}</td>
-                        <td>{valid.kiosk_data.address}</td>
+                        <td>{kiosk.obj.id}</td>
+                        <td>{kiosk.obj.address}</td>
                         <td className="flex justify-end items-end">
                             <button 
                                 className="rounded-full bg-red-500 w-32 py-1 m-1 font-semibold text-white no-underline transition hover:bg-red-400"
@@ -187,14 +131,14 @@ const Kiosk: NextPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {kiosks?.map((kiosk, index) => {
+                    {kiosks?.map((k, index) => {
                     return (
                         <tr key={index} className="border-b-2">
-                        <td>{kiosk.id}</td>
-                        <td>{kiosk.address}</td>
+                        <td>{k.id}</td>
+                        <td>{k.address}</td>
                         <td className="flex justify-end items-end">
                             {
-                                assigned.kiosk_id === kiosk.id ?
+                                k.id === kiosk.id ?
                                 <button 
                                     className="rounded-full bg-red-500 w-32 py-1 m-1 font-semibold text-white no-underline transition hover:bg-red-400"
                                     onClick={() => unassignKioskId()}
@@ -204,7 +148,7 @@ const Kiosk: NextPage = () => {
                                 :
                                 <button 
                                     className="rounded-full bg-green-500 w-32 py-1 m-1 font-semibold text-white no-underline transition hover:bg-green-400"
-                                    onClick={() => assignKioskId(kiosk.id)}
+                                    onClick={() => assignKioskId(k.id)}
                                 >
                                     Assign
                                 </button>

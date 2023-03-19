@@ -14,38 +14,33 @@ import { cm_serial_info } from "../utils/serial";
 // https://reillyeon.github.io/serial/#onconnect-attribute-0
 // https://codelabs.developers.google.com/codelabs/web-serial
   
-export type PortState = "closed" | "closing" | "open" | "opening";
-
-export type SerialMessage = {
-    value: Uint8Array;
-    done: boolean;
-    timestamp: number;
-};
-
-type SerialMessageCallback = (message: SerialMessage) => void;
+export type PortState = "CLOSED" | "CLOSING" | "OPEN" | "OPENING";
 export interface SerialContextValue {
-    portState: PortState;
-    authConnect(): Promise<boolean>;
-    disconnect(): void;
+    connected:                  boolean;
+    authConnect():              Promise<boolean>;
+    disconnect():               void;
     command(bytes: Uint8Array): Promise<Uint8Array>;
 }
 export const SerialContext = createContext<SerialContextValue>({
-    authConnect: () => Promise.resolve(false),
-    disconnect: () => {},
-    command: () => Promise.resolve(new Uint8Array()),
-    portState: "closed",
+    authConnect:    () => Promise.resolve(false),
+    disconnect:     () => {},
+    command:        () => Promise.resolve(new Uint8Array()),
+    // Assume already connected
+    connected: true,
 });
 
 export const useSerial = () => useContext(SerialContext);
 
 interface SerialProviderProps {}
 const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
+
     const [canUseSerial, setCanUseSerial] = useState(false);
-    const [portState, setPortState] = useState<PortState>("closed");
+    const [connected, setConnected] = useState<boolean>(true);
     const [hasTriedAutoconnect, setHasTriedAutoconnect] = useState(false);
     const [hasManuallyDisconnected, setHasManuallyDisconnected] = useState(false);
 
-    const portRef      = useRef<SerialPort | null>(null);
+    const portRef   = useRef<SerialPort | null>(null);
+    const portState = useRef<PortState>("CLOSED");
 
 
     const tx = async (bytes: Uint8Array) => {
@@ -110,7 +105,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     const command = async (bytes: Uint8Array, timeout: number = 5000) => {
         // Wait until port is open or timeout
         const start = +new Date;
-        while (!portRef.current || portState !== "open") {
+        while (!portRef.current || portState.current !== "OPEN") {
             if ((+new Date - start) > timeout) {
                 console.log("TX Timout")
                 return new Uint8Array()
@@ -132,25 +127,25 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         try {
             await port.open({ baudRate: 9600, bufferSize: 4096 });
             portRef.current = port;
+            portState.current = "OPEN";
             console.log(`Opened port: ${JSON.stringify(port.getInfo())}`);
-            setPortState("open");
             setHasManuallyDisconnected(false);
         } catch (error) {
-            setPortState("closed");
+            portState.current = "CLOSED";
             console.error("Could not open port");
         }
     };
 
     const authConnect = async () => {
-        if (canUseSerial && portState === "closed") {
-        setPortState("opening");
+        if (canUseSerial && portState.current === "CLOSED") {
+        portState.current = "OPENING";
         const filters = [cm_serial_info];
         try {
             const port = await navigator.serial.requestPort({ filters });
             await openPort(port);
             return true;
         } catch (error) {
-            setPortState("closed");
+            portState.current = "CLOSED";
             console.error("User did not select port");
         }
         }
@@ -158,8 +153,8 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     };
 
     const autoConnect = async () => {
-        if (canUseSerial && portState === "closed") {
-        setPortState("opening");
+        if (canUseSerial && portState.current === "CLOSED") {
+        portState.current = "OPENING";
         const availablePorts = await navigator.serial.getPorts();
         if (availablePorts.length) {
             const port = availablePorts[0];
@@ -168,10 +163,10 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
                 await openPort(port);
                 return true;
             }else{
-                setPortState("closed");
+                portState.current = "CLOSED";
             }
         } else {
-            setPortState("closed");
+            portState.current = "CLOSED";
         }
         setHasTriedAutoconnect(true);
         }
@@ -179,10 +174,10 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     };
 
     const closePort = async () => {
-        if (canUseSerial && portState === "open") {
+        if (canUseSerial && portState.current === "OPEN") {
         const port = portRef.current;
         if (port) {
-            setPortState("closing");
+            portState.current = "CLOSING";
 
             // Close and nullify the port
             await port.close();
@@ -191,7 +186,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
             // Update port state
             setHasManuallyDisconnected(true);
             setHasTriedAutoconnect(false);
-            setPortState("closed");
+            portState.current = "CLOSED";
         }
         }
     };
@@ -206,7 +201,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     const onPortDisconnect = async () => {
         portRef.current = null;
         setHasTriedAutoconnect(false);
-        setPortState("closed");
+        portState.current = "CLOSED";
     };
 
     
@@ -233,7 +228,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         canUseSerial &&
         !hasManuallyDisconnected &&
         !hasTriedAutoconnect &&
-        portState === "closed"
+        portState.current === "CLOSED"
         ) {
         console.log("Trying to autoconnect to port")
         autoConnect();
@@ -241,11 +236,39 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [canUseSerial, hasManuallyDisconnected, hasTriedAutoconnect, portState]);
 
+    useEffect(() => {
+        async function checkPortState(lastPortState: PortState, depth: number) {
+            if (portState.current === "OPEN") {
+                
+                setConnected(true)
+                return
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            if (portState.current === "CLOSED" && lastPortState !== "CLOSED"){
+                setConnected(false)
+                return
+            }
+
+            if (depth > 2) {
+                // Just incase but should be impossible
+                setConnected(false)
+                return
+            }
+
+            if (portState.current === "CLOSED"){
+                checkPortState(portState.current, depth + 1)
+            }
+        }
+
+        checkPortState(portState.current, 0)
+    }, [portState])
+
     return (
         <SerialContext.Provider
         value={{
             command,
-            portState,
+            connected,
             authConnect,
             disconnect: closePort,
         }}

@@ -3,44 +3,15 @@ import Head from "next/head";
 
 import { press_button } from "../utils/serial";
 import { useSerial } from "../components/ProviderSerial";
-import { useDev } from "../components/ProviderDev";
+import { VscDebugDisconnect, VscVmConnect } from "react-icons/vsc";
+import { useAppState } from "../components/ProviderAppState";
+import Link from "next/link";
 
-import { VscDebugDisconnect } from "react-icons/vsc";
-import { markAsUntransferable } from "worker_threads";
-import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
-    const dev = useDev()
-    const { portState, command, authConnect } = useSerial();
 
-    const [connected, setConnection] = useState(true);
-
-    useEffect(() => {
-        async function checkPortState(lastPortState: typeof portState, depth: number) {
-            if (portState === "open") {
-                setConnection(true)
-                return
-            }
-
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            if (portState === "closed" && lastPortState !== "closed"){
-                setConnection(false)
-                return
-            }
-
-            if (depth > 2) {
-                // Just incase but should be impossible
-                setConnection(false)
-                return
-            }
-
-            if (portState === "closed"){
-                checkPortState(portState, depth + 1)
-            }
-        }
-
-        checkPortState(portState, 0)
-    }, [portState])
+    const { connected, command, authConnect } = useSerial();
+    const { kiosk } = useAppState();
 
     return (
     <>
@@ -113,15 +84,24 @@ const Home: NextPage = () => {
             */}
         </div>
         <div  className="flex flex-auto"/>
-        <footer className="container flex justify-right flex-row-reverse m-10">   
+        <footer className="container flex justify-right gap-2 flex-row-reverse m-10">   
             {
-                connected 
+                !connected
                 ?
-                null
-                :
                 <button onClick={() => {authConnect()}}>
-                    <VscDebugDisconnect className="bg-red-500 p-0.5 rounded-md" size={42} color="white"/>
+                    <VscDebugDisconnect className="bg-red-500 p-1 rounded-md" size={42} color="white"/>
                 </button>
+                :
+                null                
+            },
+            {
+                kiosk.valid === false
+                ?
+                <Link href="/admin/kiosk" >
+                    <VscVmConnect className="bg-red-500 p-1 rounded-md" size={42} color="white"/>
+                </Link>
+                :
+                null
             }
         </footer>     
         </main>

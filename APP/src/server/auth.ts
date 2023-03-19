@@ -20,11 +20,11 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      scopeIds?: String[];
+      scopeIds?: string[];
     } & DefaultSession["user"];
   }
   interface User {
-    scopeId?: String
+    scopeId?: string
   }
 }
 

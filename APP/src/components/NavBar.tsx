@@ -1,6 +1,5 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { api } from "../utils/api";
 import React from "react";
 
 type Link = {name: string, path: string}
@@ -50,7 +49,7 @@ const NavBar : React.FC<{links: Link[]}> = (props: {links: Link[]}) => {
             <p className="flex text-neutral-800">{session?.user.email}</p>
             <button
                 className="text-ml font-extrabold text-neutral-800 no-underline hover:text-neutral-600"
-                onClick={() => signOut()}
+                onClick={() => void signOut()}
                 >
                 Log out
             </button>   

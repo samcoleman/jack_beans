@@ -1,7 +1,7 @@
 import { prisma } from "./db";
 
 export const getAllScopes = async (rootScope : string | undefined) => {
-    if (!rootScope) return [] as String[]
+    if (!rootScope) return [] as string[]
 
     const scopes = await prisma.scope.findMany({
         where: {id: rootScope},
@@ -23,7 +23,7 @@ export const getAllScopes = async (rootScope : string | undefined) => {
 
     // Recursively flatten the scope tree
     const flattenObject = (obj : typeof scopes) => {
-            var result : String[] = [];
+            let result : string[] = [];
             obj.forEach(function (a) {
                 result.push(a.id);
                 if (Array.isArray(a.children)) {
@@ -36,7 +36,7 @@ export const getAllScopes = async (rootScope : string | undefined) => {
     if (scopes){
         return flattenObject(scopes)
     }else{
-        return [] as String[]
+        return [] as string[]
     }
 }
   

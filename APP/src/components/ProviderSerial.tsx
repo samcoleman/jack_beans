@@ -1,6 +1,5 @@
 import {
     createContext,
-    PropsWithChildren,
     useContext,
     useEffect,
     useRef,
@@ -18,14 +17,14 @@ import { api } from "../utils/api";
   
 export type PortState = "CLOSED" | "CLOSING" | "OPEN" | "OPENING";
 export interface SerialContextValue {
-    connected:                  boolean;
-    authConnect():              Promise<boolean>;
-    disconnect():               void;
-    command(bytes: Uint8Array): Promise<Uint8Array>;
+    connected:                     boolean;
+    authConnect:()=>               Promise<boolean>;
+    disconnect:()=>                Promise<void>;
+    command:(bytes: Uint8Array) => Promise<Uint8Array>;
 }
 export const SerialContext = createContext<SerialContextValue>({
     authConnect:    () => Promise.resolve(false),
-    disconnect:     () => {},
+    disconnect:     () => Promise.resolve(),
     command:        () => Promise.resolve(new Uint8Array()),
     // Assume already connected
     connected: true,
@@ -33,7 +32,6 @@ export const SerialContext = createContext<SerialContextValue>({
 
 export const useSerial = () => useContext(SerialContext);
 
-interface SerialProviderProps {}
 const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
 
     const { kiosk } = useAppState();
@@ -65,7 +63,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         
     }
 
-    const rx = async (tx: Uint8Array, timeout: number = 5000) => {
+    const rx = async (tx: Uint8Array, timeout = 5000) => {
         function check_readbuffer_complete(readBuffer : Uint8Array) {
             // Message must be at least 3 bytes long
             if (readBuffer.length < 3){
@@ -116,7 +114,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     }
 
     // TODO: Make logging less ugly -> Need to throw errors properly
-    const command = async (bytes: Uint8Array, timeout: number = 10000) => {
+    const command = async (bytes: Uint8Array, timeout = 10000) => {
         // Wait for timeout seconds 
         const interval = 100;
         let   time = 0;
@@ -206,7 +204,10 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     };
 
     const closePort = async () => {
-        if (canUseSerial && portState.current === "OPEN") {
+        if (!canUseSerial || portState.current !== "OPEN") {
+            return
+        }
+
         const port = portRef.current;
         if (port) {
             portState.current = "CLOSING";
@@ -220,17 +221,16 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
             setHasTriedAutoconnect(false);
             portState.current = "CLOSED";
         }
-        }
     };
 
     /**
      * Event handler for when the port is connected & disconnected unexpectedly.
      */
-    const onPortConnect = async () => {
+    const onPortConnect = () => {
         setHasTriedAutoconnect(false);
     }
 
-    const onPortDisconnect = async () => {
+    const onPortDisconnect = () => {
         portRef.current = null;
         setHasTriedAutoconnect(false);
         portState.current = "CLOSED";
@@ -241,13 +241,13 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
     // Handles attaching the reader and disconnect listener when the port is open
     useEffect(() => {
         // Attach a listener for when the device is disconnected
-        navigator.serial.addEventListener("connect", onPortConnect);
-        navigator.serial.addEventListener("disconnect", onPortDisconnect);
+        navigator.serial.addEventListener("connect", () => void onPortConnect());
+        navigator.serial.addEventListener("disconnect", () => void onPortDisconnect());
 
         return () => {
             //aborted.current = true;
-            navigator.serial.removeEventListener("connect", onPortConnect);
-            navigator.serial.removeEventListener("disconnect", onPortDisconnect);
+            navigator.serial.removeEventListener("connect", () => void onPortConnect());
+            navigator.serial.removeEventListener("disconnect", () => void onPortDisconnect());
         };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -263,7 +263,7 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
         portState.current === "CLOSED"
         ) {
         console.log("Trying to autoconnect to port")
-        autoConnect();
+        void autoConnect();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [canUseSerial, hasManuallyDisconnected, hasTriedAutoconnect, portState]);
@@ -291,11 +291,11 @@ const ProviderSerial = ({ children }: { children: React.ReactNode }) => {
             }
 
             if (portState.current === "CLOSED"){
-                checkPortState(portState.current, depth + 1)
+                void checkPortState(portState.current, depth + 1)
             }
         }
 
-        checkPortState(portState.current, 0)
+        void checkPortState(portState.current, 0)
     }, [portState])
 
     return (

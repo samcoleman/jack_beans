@@ -18,6 +18,7 @@
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn",
-    "@typescript-eslint/restrict-template-expressions": "disable"
+    "@typescript-eslint/restrict-template-expressions": 0,
+    "@typescript-eslint/no-misused-promises": "warn"
   }
 }

@@ -30,7 +30,7 @@ const Home: NextPage = () => {
                 </h1>
                 <button 
                     className="flex flex-col items-center justify-center bg-white/20 py-4 px-8 rounded-full mt-20"
-                    onClick={() => signIn("auth0", { callbackUrl: getCallback() })}
+                    onClick={() => void signIn("auth0", { callbackUrl: getCallback() })}
                 >
                     <div
                     className="text-2xl font-semibold text-white no-underline">

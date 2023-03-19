@@ -28,49 +28,49 @@ const Home: NextPage = () => {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "cappuccino")}
+                onClick={() => void press_button(command, "cappuccino")}
             >
                 <h3 className="text-2xl font-bold text-center">Cappuccino</h3>
             </button>
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "latte")}
+                onClick={() => void press_button(command, "latte")}
             >
                 <h3 className="text-2xl font-bold text-center">Latte</h3>
             </button>
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "americano")}
+                onClick={() => void press_button(command, "americano")}
             >
                 <h3 className="text-2xl font-bold text-center">Americano</h3>
             </button>
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "white_coffee")}
+                onClick={() => void press_button(command, "white_coffee")}
             >
                 <h3 className="text-2xl font-bold text-center">White Coffee</h3>
             </button>
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "hot_chocolate")}
+                onClick={() => void press_button(command, "hot_chocolate")}
             >
                 <h3 className="text-2xl font-bold text-center">Hot Chocolate</h3>
             </button>
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "mocha")}
+                onClick={() => void press_button(command, "mocha")}
             >
                 <h3 className="text-2xl font-bold text-center">Mocha</h3>
             </button>
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "steam")}
+                onClick={() => void press_button(command, "steam")}
             >
                 <h3 className="text-2xl font-bold text-center">Steam</h3>
             </button>
             <button
                 className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-6 text-white hover:bg-white/20"
-                onClick={() => press_button(command, "other")}
+                onClick={() => void press_button(command, "other")}
             >
                 <h3 className="text-2xl font-bold text-center">Other</h3>
             </button>
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
             {
                 !connected
                 ?
-                <button onClick={() => {authConnect()}}>
+                <button onClick={() => {void authConnect()}}>
                     <VscDebugDisconnect className="bg-red-500 p-1 rounded-md" size={42} color="white"/>
                 </button>
                 :

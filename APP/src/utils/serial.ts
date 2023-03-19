@@ -23,7 +23,7 @@ export const press_button = async (command: (bytes: Uint8Array) => Promise<Uint8
         return
     }
 
-    let handshake = new Uint8Array([...res, 0])
+    const handshake = new Uint8Array([...res, 0])
     handshake[handshake.length-1] = res[res.length-1]!
     handshake[handshake.length-2] = 0
 
@@ -62,7 +62,7 @@ const error_lookup : { [key: number]: string } = {
 }
 
 
-export const get_errors = async (command: (bytes: Uint8Array) => Promise<Uint8Array>, limit: number = 100) => {
+export const get_errors = async (command: (bytes: Uint8Array) => Promise<Uint8Array>, limit = 100) => {
     function convert_littleendian(bytes: Uint8Array) {
         let res = 0;
         for (let i = 0; i < bytes.length; i++) {
@@ -111,8 +111,4 @@ export const get_errors = async (command: (bytes: Uint8Array) => Promise<Uint8Ar
         errors.push(get_error(res))
     }
     return errors
-}
-
-export const get_config = async (command: (bytes: Uint8Array) => Promise<Uint8Array>) => {
-    
 }

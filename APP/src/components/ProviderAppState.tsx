@@ -1,11 +1,6 @@
-import { Kiosk } from '@prisma/client';
-import { useSession } from 'next-auth/react';
-import React, { Dispatch, useEffect, useReducer, useState } from 'react';
+import type { Kiosk } from '@prisma/client';
+import React, { useEffect, useReducer, type Dispatch } from 'react';
 import { api } from '../utils/api';
-import assert from 'assert';
-import { boolean } from 'zod';
-
-type log = "REMOTE" | "CONSOLE"
 
 type IState = {
     dev: boolean,
@@ -57,7 +52,25 @@ const ProviderAppState = ({ children } : { children: React.ReactNode }) => {
     // FIXME: Async query??
     const validate = api.kiosk.checkValid.useMutation()
 
-    async function checkKioskId(){
+
+    useEffect(() => {
+        const callback = (event: KeyboardEvent) => {
+            // event.metaKey - pressed Command key on Macs
+            // event.ctrlKey - pressed Control key on Linux or Windows
+            if ((event.ctrlKey) && event.code === 'KeyB') {
+                console.log(`Dev mode: ${state.dev ? "ON" : "OFF"}`)
+                dispatch({dev: !state.dev});
+            }
+        };
+
+        document.addEventListener('keydown', callback); 
+        return () => {
+            document.removeEventListener('keydown', callback);
+        };
+    }, [state.dev])
+
+    useEffect(() => {
+        async function checkKioskId(){
             const kiosk_id = localStorage.getItem("kiosk_id");
             // Check if kiosk id is assigned
             if (!kiosk_id){
@@ -69,25 +82,8 @@ const ProviderAppState = ({ children } : { children: React.ReactNode }) => {
             dispatch({kiosk: {id: kiosk_id, valid: kiosk ? true : false, obj: kiosk}});  
     }
 
-    useEffect(() => {
-        const callback = (event: KeyboardEvent) => {
-            // event.metaKey - pressed Command key on Macs
-            // event.ctrlKey - pressed Control key on Linux or Windows
-            if ((event.ctrlKey) && event.code === 'KeyB') {
-                console.log(`Dev mode: ${!state.dev}`)
-                dispatch({dev: !state.dev});
-            }
-        };
-
-        document.addEventListener('keydown', callback); 
-        return () => {
-            document.removeEventListener('keydown', callback);
-        };
-    }, [])
-
-    useEffect(() => {
-        checkKioskId();
-    }, [state.kiosk.id])
+        void checkKioskId()
+    }, [state.kiosk.id, validate])
 
 	return (
 		<AppStateContext.Provider value={state}>

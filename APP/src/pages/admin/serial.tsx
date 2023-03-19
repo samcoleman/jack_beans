@@ -2,23 +2,20 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import {AdminNavBar} from "../../components/NavBar";
-import { api } from "../../utils/api";
-import { useSession } from "next-auth/react";
 import { useSerial } from "../../components/ProviderSerial";
 import { useState } from "react";
 
 
 const Serial: NextPage = () => {
-    const { data: session } = useSession();
 
     const { command } = useSerial()
     const [input, setInput ] = useState("");
 
-    const onChange = (e: any) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value)
     }
 
-    const onSubmit = async (e: any) => {
+    const onSubmit = async (e: React.MouseEvent<HTMLElement>) => {
         const bytes = Uint8Array.from(Buffer.from(input, 'hex'));
         const res = await command(bytes)
     }
@@ -35,7 +32,7 @@ const Serial: NextPage = () => {
 
             <div className="container flex justify-center gap-4">
                 <input  className="flex max-w-xs gap-4 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20 min-w-[50%]"  type="text" name="name" onChange={onChange}/>
-                <input className="flex max-w-xs min-w-fit gap-4 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20"  type="submit" value="Send" onClick={onSubmit}/>
+                <input className="flex max-w-xs min-w-fit gap-4 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20"  type="submit" value="Send" onClick={(e) => void onSubmit(e)}/>
             </div>
 
         <footer className="container flex justify-center flex-row-reverse">   

@@ -2,15 +2,19 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import {AdminNavBar} from "../../components/NavBar";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { get_errors, mach_error } from "../../utils/serial";
+import { get_errors, type mach_error } from "../../utils/serial";
 import { useSerial } from "../../components/ProviderSerial";
 
 
 const Errors: NextPage = () => {
     const [errors, setErrors] = useState<mach_error[]>([]);
     const { command } = useSerial();
+    
+    const read_errors = async () => {
+        const errors = await get_errors(command, 14)
+        setErrors(errors)
+    }
 
     return (
     <>
@@ -27,7 +31,7 @@ const Errors: NextPage = () => {
                     <div className="flex flex-row items-center font-extrabold gap-4">
                         <button 
                             className="text-2xl font-extrabold tracking-tight hover:text-white/70"
-                            onClick={async () => {setErrors(await get_errors(command, 14))}}
+                            onClick={() => void read_errors()}
                         >
                             Read Errors
                         </button>

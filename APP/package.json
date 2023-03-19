@@ -5,13 +5,12 @@
   "scripts": {
     "build": "next build",
     "proxy": "node proxy.js",
-    "d": "next dev",
-    "psd":  "dotenv -e .env.development -- npx prisma studio --port 5556",
-    "psp": "dotenv -e .env.production -- npx prisma studio --port 5556",
+    "dev": "next dev",
+    "prisma-dev":  "dotenv -e .env.development -- npx prisma studio --port 5556",
+    "prisma-prod": "dotenv -e .env.production -- npx prisma studio --port 5556",
     "prisma-push": "dotenv -e .env.development -- npx prisma db push",
     "prisma-gen":  "dotenv -e .env.development -- npx prisma generate",
     "prisma-migrate": "dotenv -e .env.development -- npx prisma migrate dev --name note-entity --create-only && yarn prisma generate",
-    "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"
   },

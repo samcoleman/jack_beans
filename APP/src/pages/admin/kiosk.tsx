@@ -8,7 +8,7 @@ import {AdminNavBar} from "../../components/NavBar";
 import { useAppDispatch, useAppState } from "../../components/ProviderAppState";
 
 
-const KioskPage: NextPage = () => {
+const Kiosk: NextPage = () => {
     const { kiosk } = useAppState();
     const dispatch = useAppDispatch();
 
@@ -168,6 +168,6 @@ const KioskPage: NextPage = () => {
     );
 };
 
-export default KioskPage;
+export default Kiosk;
 
 
